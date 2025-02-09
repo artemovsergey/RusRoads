@@ -16,9 +16,9 @@ public class Employee : Base
     [ForeignKey("ManagedId")]
     public Subdivision? ManagedSubdivision { get; set; }
 
-
-    public required int PositionId { get; set; }
-    public Position? Position { get; set; }
+    public required string Position {get ;set;}
+    // public required int PositionId { get; set; }
+    // public Position? Position { get; set; }
 
     public required string JobPhone {get; set;}
 

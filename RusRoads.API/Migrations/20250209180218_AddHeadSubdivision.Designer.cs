@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RusRoads.API.Data;
@@ -11,9 +12,11 @@ using RusRoads.API.Data;
 namespace RusRoads.API.Migrations
 {
     [DbContext(typeof(RusRoadsContext))]
-    partial class RusRoadsContextModelSnapshot : ModelSnapshot
+    [Migration("20250209180218_AddHeadSubdivision")]
+    partial class AddHeadSubdivision
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,9 +93,8 @@ namespace RusRoads.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Position")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("PositionId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("SubdivisionId")
                         .HasColumnType("integer");
@@ -104,6 +106,8 @@ namespace RusRoads.API.Migrations
                     b.HasIndex("HelperId");
 
                     b.HasIndex("ManagedId");
+
+                    b.HasIndex("PositionId");
 
                     b.HasIndex("SubdivisionId");
 
@@ -230,6 +234,23 @@ namespace RusRoads.API.Migrations
                     b.ToTable("Materials");
                 });
 
+            modelBuilder.Entity("RusRoads.API.Entities.Position", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Positions");
+                });
+
             modelBuilder.Entity("RusRoads.API.Entities.Subdivision", b =>
                 {
                     b.Property<int>("Id")
@@ -327,6 +348,12 @@ namespace RusRoads.API.Migrations
                         .WithMany()
                         .HasForeignKey("ManagedId");
 
+                    b.HasOne("RusRoads.API.Entities.Position", "Position")
+                        .WithMany("Employees")
+                        .HasForeignKey("PositionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("RusRoads.API.Entities.Subdivision", "Subdivision")
                         .WithMany()
                         .HasForeignKey("SubdivisionId")
@@ -338,6 +365,8 @@ namespace RusRoads.API.Migrations
                     b.Navigation("Helper");
 
                     b.Navigation("ManagedSubdivision");
+
+                    b.Navigation("Position");
 
                     b.Navigation("Subdivision");
                 });
@@ -418,6 +447,11 @@ namespace RusRoads.API.Migrations
             modelBuilder.Entity("RusRoads.API.Entities.Material", b =>
                 {
                     b.Navigation("EventMaterials");
+                });
+
+            modelBuilder.Entity("RusRoads.API.Entities.Position", b =>
+                {
+                    b.Navigation("Employees");
                 });
 #pragma warning restore 612, 618
         }
