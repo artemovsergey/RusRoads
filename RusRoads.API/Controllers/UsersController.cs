@@ -18,7 +18,7 @@ public class UsersController(RusRoadsContext db, TokenService tokenService) : Co
     [HttpPost("SignIn")]
     public ActionResult<ErrorModel> SignIn(UserDto userDto)
     {
-        // проверяем login password
+
         var user = db.Users.Where(u => u.Name == userDto.Name && u.Password == userDto.Password).FirstOrDefault();
 
         if (user == null) return StatusCode(403, new ErrorModel()
@@ -48,6 +48,7 @@ public class UsersController(RusRoadsContext db, TokenService tokenService) : Co
                 date_updated = d.DateUpdated.ToString("yyyy-MM-dd HH:mm:ss"),
                 category = d.Category,
                 has_comments = d.HasComments
+
             }).ToList();
         }
         catch (Exception ex)
@@ -89,16 +90,7 @@ public class UsersController(RusRoadsContext db, TokenService tokenService) : Co
         var author = db.Employees.Where(a => a.Fio == commentDto.Author!.Name).Select(e => new
         {
             id = e.Id,
-            fio = e.Fio,
-            birthday = e.Birthday,
-            subdivisionId = e.SubdivisionId,
-            position = e.Position,
-            jobPhone = e.JobPhone,
-            phone = e.Phone,
-            cabinet = e.Cabinet,
-            email = e.Email,
-            headId = e.HeadId,
-            helperId = e.HelperId
+ 
         }).FirstOrDefault();
 
         if (author == null) return BadRequest(new ErrorModel() { ErrorCode = "400", Message = "Нет такого сотрудника", Timestamp = DateTime.Now.ToString() });

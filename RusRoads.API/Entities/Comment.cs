@@ -15,7 +15,7 @@ public class Comment : Base
     public Employee? Author {get; set;}
 }
 
-public class CommentDto{
+public class CommentDto {
 
     public int Id {get; set;}
     public string DateCreated {get; set;} = DateTime.UtcNow.ToString();
