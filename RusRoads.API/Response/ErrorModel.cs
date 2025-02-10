@@ -2,9 +2,8 @@ namespace RusRoads.API.Response;
 
 public class ErrorModel
 {
-
-    public DateTime timestamp {get; set;}
-    public string message {get; set;} = string.Empty;
-    public  string errorCode {get; set;} = string.Empty;
+    public required string  Timestamp {get; set;}
+    public string Message {get; set;} = string.Empty;
+    public  string ErrorCode {get; set;} = string.Empty;
     
 }

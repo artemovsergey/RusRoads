@@ -12,8 +12,8 @@ using RusRoads.API.Data;
 namespace RusRoads.API.Migrations
 {
     [DbContext(typeof(RusRoadsContext))]
-    [Migration("20250209180218_AddHeadSubdivision")]
-    partial class AddHeadSubdivision
+    [Migration("20250210212220_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,12 @@ namespace RusRoads.API.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DateСreated")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Direction")
                         .HasColumnType("text");
@@ -52,6 +58,69 @@ namespace RusRoads.API.Migrations
                     b.ToTable("Applicants");
                 });
 
+            modelBuilder.Entity("RusRoads.API.Entities.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DateСreated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("DocumentId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("DocumentId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("RusRoads.API.Entities.Document", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DateСreated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("HasComments")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Documents");
+                });
+
             modelBuilder.Entity("RusRoads.API.Entities.Employee", b =>
                 {
                     b.Property<int>("Id")
@@ -66,6 +135,12 @@ namespace RusRoads.API.Migrations
                     b.Property<string>("Cabinet")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DateСreated")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -93,8 +168,9 @@ namespace RusRoads.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("PositionId")
-                        .HasColumnType("integer");
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("SubdivisionId")
                         .HasColumnType("integer");
@@ -106,8 +182,6 @@ namespace RusRoads.API.Migrations
                     b.HasIndex("HelperId");
 
                     b.HasIndex("ManagedId");
-
-                    b.HasIndex("PositionId");
 
                     b.HasIndex("SubdivisionId");
 
@@ -123,6 +197,12 @@ namespace RusRoads.API.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("BeginDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DateСreated")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
@@ -212,6 +292,12 @@ namespace RusRoads.API.Migrations
                     b.Property<int>("AutorId")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DateСreated")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<DateTime>("ModifireDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -234,23 +320,6 @@ namespace RusRoads.API.Migrations
                     b.ToTable("Materials");
                 });
 
-            modelBuilder.Entity("RusRoads.API.Entities.Position", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Positions");
-                });
-
             modelBuilder.Entity("RusRoads.API.Entities.Subdivision", b =>
                 {
                     b.Property<int>("Id")
@@ -258,6 +327,12 @@ namespace RusRoads.API.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DateСreated")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -285,10 +360,16 @@ namespace RusRoads.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DateСreated")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<int>("EmployeeId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Login")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -300,7 +381,7 @@ namespace RusRoads.API.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.HasIndex("Login")
+                    b.HasIndex("Name")
                         .IsUnique();
 
                     b.ToTable("Users");
@@ -313,6 +394,12 @@ namespace RusRoads.API.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DateСreated")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("ExceptionDate")
                         .HasColumnType("timestamp with time zone");
@@ -334,6 +421,23 @@ namespace RusRoads.API.Migrations
                     b.Navigation("Event");
                 });
 
+            modelBuilder.Entity("RusRoads.API.Entities.Comment", b =>
+                {
+                    b.HasOne("RusRoads.API.Entities.Employee", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RusRoads.API.Entities.Document", "Document")
+                        .WithMany("Comments")
+                        .HasForeignKey("DocumentId");
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Document");
+                });
+
             modelBuilder.Entity("RusRoads.API.Entities.Employee", b =>
                 {
                     b.HasOne("RusRoads.API.Entities.Employee", "Head")
@@ -348,12 +452,6 @@ namespace RusRoads.API.Migrations
                         .WithMany()
                         .HasForeignKey("ManagedId");
 
-                    b.HasOne("RusRoads.API.Entities.Position", "Position")
-                        .WithMany("Employees")
-                        .HasForeignKey("PositionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("RusRoads.API.Entities.Subdivision", "Subdivision")
                         .WithMany()
                         .HasForeignKey("SubdivisionId")
@@ -365,8 +463,6 @@ namespace RusRoads.API.Migrations
                     b.Navigation("Helper");
 
                     b.Navigation("ManagedSubdivision");
-
-                    b.Navigation("Position");
 
                     b.Navigation("Subdivision");
                 });
@@ -432,6 +528,11 @@ namespace RusRoads.API.Migrations
                     b.Navigation("Employee");
                 });
 
+            modelBuilder.Entity("RusRoads.API.Entities.Document", b =>
+                {
+                    b.Navigation("Comments");
+                });
+
             modelBuilder.Entity("RusRoads.API.Entities.Event", b =>
                 {
                     b.Navigation("Applicants");
@@ -447,11 +548,6 @@ namespace RusRoads.API.Migrations
             modelBuilder.Entity("RusRoads.API.Entities.Material", b =>
                 {
                     b.Navigation("EventMaterials");
-                });
-
-            modelBuilder.Entity("RusRoads.API.Entities.Position", b =>
-                {
-                    b.Navigation("Employees");
                 });
 #pragma warning restore 612, 618
         }

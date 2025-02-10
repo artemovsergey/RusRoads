@@ -1,0 +1,3 @@
+
+GET http://localhost:5254/api/v1/Documents
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXN2IiwibmJmIjoxNzM5MjExMzYwLCJleHAiOjE3Mzk4MTYxNjAsImlhdCI6MTczOTIxMTM2MH0.yvgcMyD7rDR4-r3ipQak2k5cVjNtirjEAdqpnTzlFKJmkIFy-qaDSJIt_MpaetS-HwPH32PNW4sGQWNKjxnLkw

@@ -4,6 +4,13 @@
 backend
 - Swashbackle.Swagger
 
+```
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.3.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.3.1" />
+
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.1" />
+```
+
 frontend:
 - angular material
 
@@ -58,11 +65,18 @@ frontend:
 - доработка веб-приложения из сессии 4
 
 
-Замечания:
+**Замечания**:
 
 - компирование из Excel в Dbeaver работает нормально при Ctrl + Shift + V и поставить "Вставить множество строк"
 - возможно понадобиться ручное обновление счетчика автоинкремента
 
 ```
-ALTER SEQUENCE public.table "Subdivisions_Id_seq" RESTART 48;
+ALTER SEQUENCE "Subdivisions_Id_seq" RESTART 48;
 ```
+
+- ограничения делать на чистом sql в бд
+
+
+# Вопросы и предложения
+
+- в API конечноя точка создания комментария, может быть изменить структуру входной модели

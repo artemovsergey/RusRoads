@@ -1,0 +1,8 @@
+
+POST http://localhost:5254/api/v1/SignIn
+Content-Type: application/json
+
+{
+  "name": "asv",
+  "password": "123"
+}

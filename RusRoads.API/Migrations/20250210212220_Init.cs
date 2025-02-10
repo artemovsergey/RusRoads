@@ -13,6 +13,23 @@ namespace RusRoads.API.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Documents",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Category = table.Column<string>(type: "text", nullable: false),
+                    HasComments = table.Column<bool>(type: "boolean", nullable: false),
+                    DateСreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Documents", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EventTypes",
                 columns: table => new
                 {
@@ -26,30 +43,25 @@ namespace RusRoads.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Positions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Positions", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Subdivisions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false)
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    HeadSubdivisionId = table.Column<int>(type: "integer", nullable: true),
+                    DateСreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Subdivisions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Subdivisions_Subdivisions_HeadSubdivisionId",
+                        column: x => x.HeadSubdivisionId,
+                        principalTable: "Subdivisions",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -59,7 +71,9 @@ namespace RusRoads.API.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ExceptionDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsWorkingDay = table.Column<bool>(type: "boolean", nullable: false)
+                    IsWorkingDay = table.Column<bool>(type: "boolean", nullable: false),
+                    DateСreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -78,7 +92,9 @@ namespace RusRoads.API.Migrations
                     EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: false),
                     ResponsiblesPerson = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false)
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    DateСreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -101,13 +117,15 @@ namespace RusRoads.API.Migrations
                     Birthday = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     SubdivisionId = table.Column<int>(type: "integer", nullable: false),
                     ManagedId = table.Column<int>(type: "integer", nullable: true),
-                    PositionId = table.Column<int>(type: "integer", nullable: false),
+                    Position = table.Column<string>(type: "text", nullable: false),
                     JobPhone = table.Column<string>(type: "text", nullable: false),
                     Phone = table.Column<string>(type: "text", nullable: false),
                     Cabinet = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     HeadId = table.Column<int>(type: "integer", nullable: true),
-                    HelperId = table.Column<int>(type: "integer", nullable: true)
+                    HelperId = table.Column<int>(type: "integer", nullable: true),
+                    DateСreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -122,12 +140,6 @@ namespace RusRoads.API.Migrations
                         column: x => x.HelperId,
                         principalTable: "Employees",
                         principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Employees_Positions_PositionId",
-                        column: x => x.PositionId,
-                        principalTable: "Positions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Employees_Subdivisions_ManagedId",
                         column: x => x.ManagedId,
@@ -150,7 +162,9 @@ namespace RusRoads.API.Migrations
                     ReceiptDateResume = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Direction = table.Column<string>(type: "text", nullable: true),
                     ResumeFile = table.Column<byte[]>(type: "bytea", nullable: true),
-                    EventId = table.Column<int>(type: "integer", nullable: true)
+                    EventId = table.Column<int>(type: "integer", nullable: true),
+                    DateСreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -160,6 +174,34 @@ namespace RusRoads.API.Migrations
                         column: x => x.EventId,
                         principalTable: "Events",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Text = table.Column<string>(type: "text", nullable: false),
+                    DocumentId = table.Column<int>(type: "integer", nullable: true),
+                    AuthorId = table.Column<int>(type: "integer", nullable: false),
+                    DateСreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comments_Documents_DocumentId",
+                        column: x => x.DocumentId,
+                        principalTable: "Documents",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Comments_Employees_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -174,7 +216,9 @@ namespace RusRoads.API.Migrations
                     Status = table.Column<string>(type: "text", nullable: false),
                     Type = table.Column<string>(type: "text", nullable: false),
                     Area = table.Column<string>(type: "text", nullable: false),
-                    AutorId = table.Column<int>(type: "integer", nullable: false)
+                    AutorId = table.Column<int>(type: "integer", nullable: false),
+                    DateСreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -193,9 +237,11 @@ namespace RusRoads.API.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Login = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false),
-                    EmployeeId = table.Column<int>(type: "integer", nullable: false)
+                    EmployeeId = table.Column<int>(type: "integer", nullable: false),
+                    DateСreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -240,6 +286,16 @@ namespace RusRoads.API.Migrations
                 column: "EventId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comments_AuthorId",
+                table: "Comments",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_DocumentId",
+                table: "Comments",
+                column: "DocumentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Employees_HeadId",
                 table: "Employees",
                 column: "HeadId");
@@ -253,11 +309,6 @@ namespace RusRoads.API.Migrations
                 name: "IX_Employees_ManagedId",
                 table: "Employees",
                 column: "ManagedId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Employees_PositionId",
-                table: "Employees",
-                column: "PositionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_SubdivisionId",
@@ -285,32 +336,30 @@ namespace RusRoads.API.Migrations
                 column: "AutorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Subdivisions_HeadSubdivisionId",
+                table: "Subdivisions",
+                column: "HeadSubdivisionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_EmployeeId",
                 table: "Users",
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_Login",
+                name: "IX_Users_Name",
                 table: "Users",
-                column: "Login",
+                column: "Name",
                 unique: true);
-
-                     migrationBuilder.Sql(
-            @"ALTER TABLE ""Employees""
-              ADD CONSTRAINT ""CK_Employee_Phone""
-              CHECK (""Phone"" ~ '^[0-9+() -]{1,20}$');");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-
-                  migrationBuilder.Sql(
-            @"ALTER TABLE ""Employees""
-              DROP CONSTRAINT ""CK_Employee_Phone"";");
-
             migrationBuilder.DropTable(
                 name: "Applicants");
+
+            migrationBuilder.DropTable(
+                name: "Comments");
 
             migrationBuilder.DropTable(
                 name: "EventMaterials");
@@ -320,6 +369,9 @@ namespace RusRoads.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "WorkingCalendars");
+
+            migrationBuilder.DropTable(
+                name: "Documents");
 
             migrationBuilder.DropTable(
                 name: "Events");
@@ -332,9 +384,6 @@ namespace RusRoads.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Employees");
-
-            migrationBuilder.DropTable(
-                name: "Positions");
 
             migrationBuilder.DropTable(
                 name: "Subdivisions");

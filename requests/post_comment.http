@@ -1,0 +1,16 @@
+
+POST http://localhost:5254/api/v1/Document/1/Comment
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXN2IiwibmJmIjoxNzM5MjIzNTczLCJleHAiOjE3Mzk4MjgzNzMsImlhdCI6MTczOTIyMzU3M30.knUWYsnM_eSJ6dG_XNWYXOi0C8rDOwLunyd3hPXZUZhR8X8f7pybfkhxYAfGpF9dgCa6dWQD-0I9bL5CsT-1Aw
+
+{
+   "id": 0,
+   "document_id": 1,
+   "text": "Hello world",
+   "date_created": "2024-05-01 14:44:44",
+   "date_updated": "2024-05-01 14:44:44",
+   "author": {
+       "name": "asv",
+       "position": "Администратор"
+   }
+}
