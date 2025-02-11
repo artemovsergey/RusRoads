@@ -31,4 +31,6 @@ public class Employee : Base
     [ForeignKey("HelperId")]
     public Employee? Helper {get; set;}
 
+    public IEnumerable<Event>? Events {get; set;}
+
 }

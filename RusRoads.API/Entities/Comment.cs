@@ -4,25 +4,29 @@ namespace RusRoads.API.Entities;
 
 public class Comment : Base
 {
-    public required string Text {get; set;}
+    public required string Text { get; set; }
 
-    public int? DocumentId {get ;set;}
-    public Document? Document {get; set;}
+    public int? DocumentId { get; set; }
+    public Document? Document { get; set; }
 
-    public int AuthorId {get; set;}
+    public int AuthorId { get; set; }
 
     [ForeignKey("AuthorId")]
-    public Employee? Author {get; set;}
+    public Employee? Author { get; set; }
+
+    public DateTime DateСreated { get; set; } = DateTime.UtcNow;
+    public DateTime DateUpdated { get; set; } = DateTime.UtcNow;
 }
 
-public class CommentDto {
+public class CommentDto
+{
 
-    public int Id {get; set;}
-    public string DateCreated {get; set;} = DateTime.UtcNow.ToString();
-    public string DateUpdated {get; set;} = DateTime.UtcNow.ToString();
-    public int DocumentId {get; set;}
-    public required string Text {get; set;}
-    public AuthorDto? Author {get; set;}
+    public int Id { get; set; }
+    public string DateCreated { get; set; } = DateTime.UtcNow.ToString();
+    public string DateUpdated { get; set; } = DateTime.UtcNow.ToString();
+    public int DocumentId { get; set; }
+    public required string Text { get; set; }
+    public AuthorDto? Author { get; set; }
 }
 
 public record AuthorDto(string Name, string Position);

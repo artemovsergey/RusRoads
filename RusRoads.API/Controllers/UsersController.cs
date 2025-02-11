@@ -8,10 +8,10 @@ using RusRoads.API.Services;
 
 namespace RusRoads.API.Controllers;
 
-[Authorize]
+// [Authorize]
 [ApiController]
 [Route("api/v1")]
-public class UsersController(RusRoadsContext db, TokenService tokenService) : ControllerBase
+public class UsersController(RusRoadsContext db, TokenService tokenService) : BaseController<User>(db)
 {
 
     [AllowAnonymous]

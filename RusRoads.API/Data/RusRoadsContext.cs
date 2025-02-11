@@ -11,6 +11,7 @@ public class RusRoadsContext(DbContextOptions options) : DbContext(options)
 
     public DbSet<Applicant> Applicants { get; set; }
     public DbSet<Event> Events { get; set; }
+    public DbSet<Messuare> Messuares {get; set;}
     public DbSet<EventType> EventTypes { get; set; }
 
     public DbSet<Material> Materials { get; set; }
