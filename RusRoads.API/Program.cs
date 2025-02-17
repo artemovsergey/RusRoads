@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -13,7 +14,8 @@ builder.Services.AddControllers().AddJsonOptions(options =>
         // Настройка именования свойств в snake_case
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
     });
-
+    
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<TokenService>();
