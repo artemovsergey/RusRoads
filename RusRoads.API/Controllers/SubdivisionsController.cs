@@ -37,19 +37,51 @@ public class SubdivisionsController(RusRoadsContext db, IMapper mapper) : Contro
     [HttpGet("{subdivisionId}/employees")]
     public async Task<ActionResult<IEnumerable<Employee>>> GetEmpBySubdivisions(int subdivisionId)
     {
+        // Найти сотрудников самого подразделения
+        var employees = await GetEmployeesAsync(subdivisionId);
 
-        // найти сотрудников самого подразделения
-        var emp = GetEmployees(subdivisionId);
+        // Найти все дочерние подразделения (рекурсивно)
+        var childSubdivisions = await GetChildSubdivisionsAsync(subdivisionId);
 
-        // надо узнать зависимые подразделения
-        var childSubdivions = db.Subdivisions.Where(s => s.HeadSubdivisionId == subdivisionId && s.Id != subdivisionId).ToList();
+        // Собрать сотрудников всех дочерних подразделений
+        foreach (var child in childSubdivisions)
+        {
+            var childEmployees = await GetEmployeesAsync(child.Id);
+            employees.AddRange(childEmployees);
+        }
 
-
-
-        // var emp = db.Employees
-
-        return Ok();
+        return Ok(employees);
     }
 
-    // вывод иерархии подразделений
+    private async Task<List<Employee>> GetEmployeesAsync(int subdivisionId)
+    {
+        return await db.Employees
+            .Where(e => e.SubdivisionId == subdivisionId)
+            .ToListAsync();
+    }
+
+    private async Task<List<Subdivision>> GetChildSubdivisionsAsync(int subdivisionId)
+    {
+        var allSubdivisions = await db.Subdivisions.ToListAsync();
+        var result = new List<Subdivision>();
+
+        // Рекурсивная функция для поиска всех дочерних подразделений
+        void FindChildren(int parentId)
+        {
+            var children = allSubdivisions
+                .Where(s => s.HeadSubdivisionId == parentId)
+                .ToList();
+
+            result.AddRange(children);
+
+            foreach (var child in children)
+            {
+                FindChildren(child.Id);
+            }
+        }
+
+        FindChildren(subdivisionId);
+        return result;
+    }
+
 }
