@@ -20,30 +20,24 @@ Backend (.NET 9)
 - Microsoft.EntityFrameworkCore.Design
 - Npgsql.EntityFrameworkCore.PostgreSQL
 - AutoMapper
-- System.ServiceModel.Syndication  ?
 
 Frontend (Angular)
 
 - @angular/cli
-- rxjs  ?
 - @angular/material
 - material-design-icons-iconfont
 
 - @ng-bootstrap/ng-bootstrap
 - ngx-bootstrap
-
 - ngx-toastr
-
 - xml2js
 - primeng
-
 - @fullcalendar/angular
 - @fullcalendar/core
 - @fullcalendar/daygrid
 - @fullcalendar/interaction
 - ics
 - angularx-qrcode
-
 
 • @angular/service-worker (npm package)
 • angular-connection-service (npm package)
