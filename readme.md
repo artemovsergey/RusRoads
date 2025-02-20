@@ -25,19 +25,19 @@ Frontend (Angular)
 
 - @angular/cli
 - @angular/material
+- @angular/cdk
+- @angular/service-worker
 - material-design-icons-iconfont
-
 - @ng-bootstrap/ng-bootstrap
 - ngx-bootstrap
 - ngx-toastr
 - xml2js
 - primeng
-- @fullcalendar/angular
-- @fullcalendar/core
-- @fullcalendar/daygrid
-- @fullcalendar/interaction
 - ics
 - angularx-qrcode
+- 
+
+
 
 • @angular/service-worker (npm package)
 • angular-connection-service (npm package)
@@ -301,3 +301,12 @@ ALTER SEQUENCE "Subdivisions_Id_seq" RESTART 48;
 # Интернет-кафе ресурсы (без авторизации)
 
 - angular material
+
+# Замечания
+
+- при установке @angular/pwa может возниктуть проблема с schematic
+
+```npm cache clean --force``` и заново установить ```ng add @angular/pwa```
+
+- можно установить отдельно ```@angular/service-worker```, но лучше ```ng add @angular/pwa```
+- если через ng add не устанавливается пакет, то npm install

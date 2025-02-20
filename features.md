@@ -94,7 +94,6 @@ export class AppComponent implements OnInit {
 }
 ```
 
-
 # Реализация обновления каждые 15 секунд
 
 ```ts
