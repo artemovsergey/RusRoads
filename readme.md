@@ -1,16 +1,14 @@
 
 # Пакеты для добавления в ИЛ
 
-Расширения для vscode
-
+Расширения для vscode:
 - C#
 - C# Extensions
 - Angular Language Service
 - REST Client
 - Nuget Gallery
 
-Backend (.NET 9)
-
+Backend (.NET 9):
 - Swashbackle.Swagger
 - Microsoft.IdentityModel.Tokens (8.3.1)
 - System.IdentityModel.Tokens.Jwt (8.3.1)
@@ -21,8 +19,7 @@ Backend (.NET 9)
 - Npgsql.EntityFrameworkCore.PostgreSQL
 - AutoMapper
 
-Frontend (Angular)
-
+Frontend (Angular):
 - @angular/cli
 - @angular/material
 - @angular/cdk
@@ -36,8 +33,7 @@ Frontend (Angular)
 - angularx-qrcode
 - @swimlane/ngx-graph
 
-Kotlin:
-
+Мобильное приложение (Kotlin):
 - com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0
 - com.squareup.retrofit2:retrofit:2.11.0
 - io.coil-kt:coil-compose:2.7.0
