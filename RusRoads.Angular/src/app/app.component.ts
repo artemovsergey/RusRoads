@@ -1,54 +1,69 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DagreLayout, NgxGraphModule, Orientation } from '@swimlane/ngx-graph';
+import { XmlComponent } from './xml/xml.component';
+import { ParseXmlService } from '../services/parse-xml.service';
+import { QRCodeComponent } from 'angularx-qrcode';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, NgxGraphModule],
-  template: `
-    <div style="width: 800px; height: 600px; border: 1px solid red;">
-      <ngx-graph
-        [view]="[800, 600]"
-        [nodes]="nodes"
-        [links]="links"
-        [layout]="layout"
-        [enableZoom]="true"
-        [autoZoom]="true"
-       >
-
-        <ng-template #defsTemplate>
-          <svg:marker id="arrow" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="4" markerHeight="4" orient="auto">
-            <svg:path d="M0,-5L10,0L0,5" class="arrow-head" />
-          </svg:marker>
-        </ng-template>
-
-        <ng-template #nodeTemplate let-node>
-          <svg:g class="node">
-            <svg:rect
-              [attr.width]="200"
-              [attr.height]="40"
-              fill="#f9f9f9"
-              stroke="#ccc"
-              stroke-width="1"
-              (click)="onNodeClick(node)"
-            />
-            <svg:text (click)="onNodeClick(node)" alignment-baseline="central" [attr.x]="10" [attr.y]="20">
-              {{ node.label }}
-            </svg:text>
-          </svg:g>
-        </ng-template>
-
-        <ng-template #linkTemplate let-link>
-          <svg:g class="edge">
-            <svg:path class="line" stroke-width="2" marker-end="url(#arrow)"></svg:path>
-          </svg:g>
-        </ng-template>
-      </ngx-graph>
-    </div>
-  `,
+  imports: [CommonModule, NgxGraphModule, QRCodeComponent],
+  templateUrl: 'app.component.html'
 })
 export class AppComponent implements OnInit {
+  downloadIcsFile() {
+    const icsContent = `
+        BEGIN:VCALENDAR
+        VERSION:2.0
+        PRODID:-//Your Organization//Your Product//EN
+        BEGIN:VEVENT
+        UID:uid1@example.com
+        DTSTAMP:20231014T120000Z
+        DTSTART:20231015T100000Z
+        DTEND:20231015T120000Z
+        SUMMARY:My Event
+        DESCRIPTION:This is a test event
+        END:VEVENT
+        END:VCALENDAR
+    `;
+
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'event.ics';
+    link.click();
+
+    window.URL.revokeObjectURL(url);
+  }
+
+
+  generateVcard(): string {
+    return `
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SUMMARY:Победить всех!
+DTSTART:20240526T140000Z
+DTEND:20240603T140000Z
+DTSTAMP:20240525T121238Z
+UID:1716639158936
+DESCRIPTION:
+LOCATION:
+ORGANIZER:
+STATUS:CONFIRMED
+PRIORITY:0
+END:VEVENT
+END:VCALENDAR
+
+    `.trim(); // Убираем лишние пробелы
+  }
+
+
+
   onNodeClick(node: any) {
     console.log(node.id)
   }
@@ -57,8 +72,8 @@ export class AppComponent implements OnInit {
   links: any[] = [];
   layout = new DagreLayout(); // Используем DagreLayout
 
-
-
+  xmlService = inject(ParseXmlService)
+  rssItems: any[] = []
   testData = [
     { id: 1, name: 'Главное подразделение', head_id: 1 },
     { id: 2, name: 'Подразделение A', head_id: 1 },
@@ -67,12 +82,16 @@ export class AppComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    this.xmlService.getRssFeed().subscribe({
+      next: request => this.rssItems = request,
+      error: error => console.log(error)
+    })
     this.prepareData(this.testData);
     console.log('Nodes:', this.nodes);
     console.log('Links:', this.links);
 
-        // Настройка ориентации
-        this.layout.settings.orientation = Orientation.TOP_TO_BOTTOM
+    // Настройка ориентации
+    this.layout.settings.orientation = Orientation.TOP_TO_BOTTOM
   }
 
   prepareData(data: any[]) {

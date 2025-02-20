@@ -21,6 +21,7 @@ Backend (.NET 9)
 - Npgsql.EntityFrameworkCore.PostgreSQL
 - AutoMapper
 
+
 Frontend (Angular)
 
 - @angular/cli
@@ -33,7 +34,6 @@ Frontend (Angular)
 - ngx-toastr
 - xml2js
 - primeng
-- ics
 - angularx-qrcode
 - 
 
