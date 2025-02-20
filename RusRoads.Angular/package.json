@@ -11,15 +11,22 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^19.1.0",
+    "@angular/cdk": "^19.1.5",
     "@angular/common": "^19.1.0",
     "@angular/compiler": "^19.1.0",
     "@angular/core": "^19.1.0",
     "@angular/forms": "^19.1.0",
+    "@angular/material": "^19.1.5",
     "@angular/platform-browser": "^19.1.0",
     "@angular/platform-browser-dynamic": "^19.1.0",
     "@angular/router": "^19.1.0",
+    "@angular/service-worker": "^19.1.0",
+    "@swimlane/ngx-graph": "^10.0.0-alpha.0",
+    "material-design-icons-iconfont": "^6.7.0",
+    "primeng": "^19.0.6",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "xml2js": "^0.6.2",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
