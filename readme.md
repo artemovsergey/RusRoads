@@ -21,7 +21,6 @@ Backend (.NET 9)
 - Npgsql.EntityFrameworkCore.PostgreSQL
 - AutoMapper
 
-
 Frontend (Angular)
 
 - @angular/cli
@@ -35,16 +34,6 @@ Frontend (Angular)
 - xml2js
 - primeng
 - angularx-qrcode
-- 
-
-
-
-• @angular/service-worker (npm package)
-• angular-connection-service (npm package)
-• Microsoft.AspNetCore.Cors (NuGet package)
-• WebEssentials.AspNetCore.ServiceWorker (NuGet package, optional)
-• http-server (npm package)
-
 - @swimlane/ngx-graph
 
 Kotlin:

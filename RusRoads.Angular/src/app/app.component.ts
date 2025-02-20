@@ -13,7 +13,7 @@ import { QRCodeComponent } from 'angularx-qrcode';
   templateUrl: 'app.component.html'
 })
 export class AppComponent implements OnInit {
-  downloadIcsFile() {
+  downloadIcsFile() { 
     const icsContent = `
         BEGIN:VCALENDAR
         VERSION:2.0
