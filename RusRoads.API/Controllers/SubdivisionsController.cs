@@ -29,43 +29,32 @@ public class SubdivisionsController(RusRoadsContext db, IMapper mapper) : Contro
         return Ok(divisionsDto);
     }
 
+    [HttpGet("{subdivisionId}/employees")]
+    public IEnumerable<Employee> GetAll(int subdivisionId)
+    {
+        return db.Employees.Where(s => s.SubdivisionId == subdivisionId).ToList();
+    }
+
     private IEnumerable<Employee> GetEmployees(int id)
     {
         return db.Employees.Where(s => s.SubdivisionId == id).ToList();
     }
 
-    [HttpGet("{subdivisionId}/employees")]
+    [HttpGet("{subdivisionId}/employeesAll")]
     public async Task<ActionResult<IEnumerable<Employee>>> GetEmpBySubdivisions(int subdivisionId)
     {
+        // Общий пулл сотрудников, который нужен
+        var employeeAll = new List<Employee>(); 
+        
         // Найти сотрудников самого подразделения
-        var employees = await GetEmployeesAsync(subdivisionId);
+        var currentEmp = GetEmployees(subdivisionId);
+        employeeAll.AddRange(currentEmp);
 
         // Найти все дочерние подразделения (рекурсивно)
-        var childSubdivisions = await GetChildSubdivisionsAsync(subdivisionId);
-
-        // Собрать сотрудников всех дочерних подразделений
-        foreach (var child in childSubdivisions)
-        {
-            var childEmployees = await GetEmployeesAsync(child.Id);
-            employees.AddRange(childEmployees);
-        }
-
-        return Ok(employees);
-    }
-
-    private async Task<List<Employee>> GetEmployeesAsync(int subdivisionId)
-    {
-        return await db.Employees
-            .Where(e => e.SubdivisionId == subdivisionId)
-            .ToListAsync();
-    }
-
-    private async Task<List<Subdivision>> GetChildSubdivisionsAsync(int subdivisionId)
-    {
         var allSubdivisions = await db.Subdivisions.ToListAsync();
+        
         var result = new List<Subdivision>();
-
-        // Рекурсивная функция для поиска всех дочерних подразделений
+        
         void FindChildren(int parentId)
         {
             var children = allSubdivisions
@@ -79,9 +68,16 @@ public class SubdivisionsController(RusRoadsContext db, IMapper mapper) : Contro
                 FindChildren(child.Id);
             }
         }
-
         FindChildren(subdivisionId);
-        return result;
+
+        foreach(var sub in result){
+            var emp = GetEmployees(sub.Id);
+            employeeAll.AddRange(emp);
+        }
+
+        var empDto = mapper.Map<IEnumerable<EmployeeDto>>(employeeAll);
+        return Ok(empDto);
+
     }
 
 }

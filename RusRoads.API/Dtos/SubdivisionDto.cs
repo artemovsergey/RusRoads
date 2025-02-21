@@ -7,5 +7,6 @@ public class SubdivisionDto
 {
     public int Id {get; set;}
     public string Name {get; set;} = string.Empty;
-    public virtual Subdivision? HeadSubdivision {get; set;}
+    public int HeadSubdivisionId {get; set;}
 }
+

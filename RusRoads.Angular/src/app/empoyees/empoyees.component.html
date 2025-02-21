@@ -1,0 +1,15 @@
+<!-- <div>
+    <h1>Генератор QR-кода</h1>
+    <qrcode [qrdata]="generateVcard()" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+</div> -->
+
+
+<div class="employees">
+        @for (e of employees; track $index) {
+            <p> <app-employee [employee]="e"  (selectEmployee) = editEmployee($event)  /> </p>
+        }
+
+        <button (click)="addEmp()"> 
+            <mat-icon>add</mat-icon>
+        </button>
+</div>

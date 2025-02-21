@@ -1,43 +1,11 @@
-<div>
-
-    <button (click)="downloadIcsFile()"> Событие</button>
-
+<app-header/>
+<div class="main">
+    <app-subdivisions class="main"/>
+    <app-empoyees class="main"/>
 </div>
 
 
-<div>
-    <h1>Генератор QR-кода</h1>
-    <qrcode [qrdata]="generateVcard()" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
-  </div>
 
 
 
 
-<div style="width: 800px; height: 600px; border: 1px solid red;">
-    <ngx-graph [view]="[800, 600]" [nodes]="nodes" [links]="links" [layout]="layout" [enableZoom]="false" [draggingEnabled]="false"
-        [autoZoom]="true">
-
-        <ng-template #defsTemplate>
-            <svg:marker id="arrow" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="4" markerHeight="4"
-                orient="auto">
-                <svg:path d="M0,-5L10,0L0,5" class="arrow-head" />
-            </svg:marker>
-        </ng-template>
-
-        <ng-template #nodeTemplate let-node>
-            <svg:g class="node">
-                <svg:rect [attr.width]="200" [attr.height]="40" fill="#f9f9f9" stroke="#ccc" stroke-width="1"
-                    (click)="onNodeClick(node)" />
-                <svg:text (click)="onNodeClick(node)" alignment-baseline="central" [attr.x]="10" [attr.y]="20">
-                    {{ node.label }}
-                </svg:text>
-            </svg:g>
-        </ng-template>
-
-        <ng-template #linkTemplate let-link>
-            <svg:g class="edge">
-                <svg:path class="line" stroke-width="2" marker-end="url(#arrow)"></svg:path>
-            </svg:g>
-        </ng-template>
-    </ngx-graph>
-</div>

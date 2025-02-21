@@ -1,0 +1,27 @@
+<div style="max-width: 900px; max-height: 500px; overflow-x: scroll; overflow-y: scroll;">
+    <ngx-graph [view]="[10000, 700]" [nodes]="nodes" [links]="links" [layout]="layout" [enableZoom]="false" [draggingEnabled]="false"
+        [autoZoom]="false" >
+
+        <ng-template #defsTemplate >
+            <svg:marker  id="arrow" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="4" markerHeight="4"
+                orient="auto">
+                <svg:path d="M0,-5L10,0L0,5" class="arrow-head" />
+            </svg:marker>
+        </ng-template>
+
+        <ng-template #nodeTemplate let-node>
+            <svg:g class="node">
+                <svg:rect [attr.width]="200" [attr.height]="50" fill="#f9f9f9" stroke="#ccc" stroke-width="1"/>
+                <svg:text  (click)="getEmployeeBySub(node)" alignment-baseline="central" [attr.x]="10" [attr.y]="20">
+                    {{ node.label }}
+                </svg:text>
+            </svg:g>
+        </ng-template>
+
+        <ng-template #linkTemplate let-link>
+            <svg:g class="edge">
+                <svg:path class="line" stroke-width="2" marker-end="url(#arrow)"></svg:path>
+            </svg:g>
+        </ng-template>
+    </ngx-graph>
+</div>

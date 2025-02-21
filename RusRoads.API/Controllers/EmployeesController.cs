@@ -13,9 +13,12 @@ public class EmployeesController(RusRoadsContext db, IMapper mapper) : Controlle
 {
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Employee>>> GetEmployess(){
+    public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployess(){
 
-        return Ok(await db.Employees.ToListAsync());
+        var emp = await db.Employees.ToListAsync();
+        var empDto = mapper.Map<IEnumerable<EmployeeDto>>(emp);
+
+        return Ok(empDto);
     }
 
     [HttpGet("subdivisionId")]

@@ -1,0 +1,10 @@
+<h2 mat-dialog-title> Создание сотрудника </h2>
+
+<mat-dialog-content>
+    <input matInput [(ngModel)]="currentEmp.fio" />
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-stroked-button color="primary" (click) = "cancell()" cdkFocusInitial>Cancel</button>
+  <button mat-flat-button color="primary" [disabled]="currentEmp.fio.trim().length == 0"  (click) = "ok()">Ok</button>
+</mat-dialog-actions>

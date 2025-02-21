@@ -17,6 +17,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddOpenApi();
+builder.Services.AddCors();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddDbContext<RusRoadsContext>(o => o.UseNpgsql(builder.Configuration.GetConnectionString("Postgres")));
@@ -44,6 +45,7 @@ app.MapOpenApi();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseHttpsRedirection();
+app.UseCors(o => o.AllowAnyOrigin());
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

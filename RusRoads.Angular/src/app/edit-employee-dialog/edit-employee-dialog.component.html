@@ -1,0 +1,13 @@
+<h2 mat-title> Редактирование сотрудника </h2>
+
+<mat-dialog-content>
+    <input [disabled]="!isEdit" matInput [(ngModel)] = "currentEmployee.fio" />
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button (click)="ok()"> Ok</button>
+    <button (click)="cancel()"> Cancel</button>
+    <button (click)="isEdit = !isEdit">
+        <mat-icon>edit</mat-icon>
+    </button>  
+</mat-dialog-actions>
