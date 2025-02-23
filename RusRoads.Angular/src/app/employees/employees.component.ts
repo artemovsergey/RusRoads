@@ -21,13 +21,11 @@ export class EmpoyeesComponent implements OnInit{
   subService = inject(SubdivisonsService)
   empService = inject(EmployeesService)
 
-  employees: any[] = []
-  currentEmployees: any[] = []
-
+  employees: Employee[] = []
+  currentEmployees: Employee[] = []
   currentSubId!: number
 
   ngOnInit() {
-
     this.subService.currentSubId$.subscribe( r => {
       this.currentSubId = r; 
       console.log(this.currentSubId);
@@ -58,19 +56,11 @@ export class EmpoyeesComponent implements OnInit{
           error => { console.log(error.message) }
         )
       }
-      
-      console.log(result)
-
-
     });
 
   }
 
   editEmployee($event: any) {
-
-    // console.log($event.birthday)
-    // console.log($event.birthday.split("T")[0])
-    // console.log(new Date($event.birthday.split("T")[0]).toISOString())
 
     $event.birthday = $event.birthday.toString().split("T")[0];
 

@@ -23,7 +23,6 @@ export class EditEmployeeDialogComponent implements OnInit {
   isEdit: boolean = false;
 
   ngOnInit(): void {
-    console.log(this.data[1])
     this.subService.getll().subscribe(r => this.subdivisions = r)
   }
 
@@ -32,7 +31,7 @@ export class EditEmployeeDialogComponent implements OnInit {
   }
 
   ok() {
-    console.log("Передан сотрудник: ", this.currentEmp)
+    console.log("Передана задача: ", this.currentEmp)
     this.dialogRef.close(this.currentEmp)
   }
 

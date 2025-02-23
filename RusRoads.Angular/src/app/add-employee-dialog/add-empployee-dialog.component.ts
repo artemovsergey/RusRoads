@@ -1,9 +1,10 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog'
 import { Employee } from '../../models/employee';
 import { SubdivisonsService } from '../../services/subdivisons.service';
+import { Subdivision } from '../../models/subdivision';
 
 @Component({
   selector: 'app-addemp',
@@ -17,7 +18,7 @@ export class AddEmployeeDialogComponent implements OnInit {
   dialogRef = inject(MatDialogRef<AddEmployeeDialogComponent>)
   data = inject<Employee[]>(MAT_DIALOG_DATA)
 
-  subdivisions: any[] = [] 
+  subdivisions: Subdivision[] = []
 
   currentEmp: Employee = {
     id: 0,
@@ -38,7 +39,7 @@ export class AddEmployeeDialogComponent implements OnInit {
     email: ''
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     console.log("data", this.data)
     this.subService.getll().subscribe(r => this.subdivisions = r)
   }

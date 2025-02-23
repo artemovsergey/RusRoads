@@ -13,7 +13,7 @@ export class EmployeeComponent {
   selectEmployee: EventEmitter<Employee> = new EventEmitter<Employee>()
 
   @Input()
-  employee: any = []
+  employee!: Employee
 
   getEmp(employee: Employee) {
     this.selectEmployee.emit(employee)
