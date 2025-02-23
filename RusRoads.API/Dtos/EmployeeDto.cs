@@ -1,15 +1,54 @@
 
+using System.ComponentModel.DataAnnotations.Schema;
 using RusRoads.API.Entities;
 
 namespace RusRoads.API.Dtos;
 
 public class EmployeeDto
 {
-    public int Id {get; set;}
-    public string Fio {get; set;} = string.Empty;
-    public Subdivision Subdivision {get; set;}
-    public string Phone {get; set;}
-    public string Cabinet {get; set;}
-    public string Position {get; set;}
-    public string Email {get; set;}
+
+
+    public int Id { get; set; }
+    public string Fio { get; set; } = string.Empty;
+
+    public int SubdivisionId { get; set; }
+    public SubdivisionDto? Subdivision { get; set; }
+
+    public DateTime Birthday { get; set; }
+    public string Position { get; set; }
+
+    public int? HeadId { get; set; } = null;
+
+
+
+    public int? HelperId { get; set; } = null;
+
+    public string JobPhone { get; set; }
+    public string Phone { get; set; }
+    public string Cabinet { get; set; }
+    public string Email { get; set; }
+
+
+
+
+
+}
+
+
+public class EmployeeTest
+{
+    public int Id { get; set; }
+    public string Fio { get; set; } = string.Empty;
+
+    public int SubdivisionId { get; set; }
+    // public SubdivisionDto? Subdivision { get; set; }
+
+    public string Position { get; set; }
+    public int? HeadId { get; set; }
+    public int? HelperId { get; set; }
+    public DateTime Date { get; set; }
+    public string Info { get; set; }
+    public string Phone { get; set; }
+    public string Cabinet { get; set; }
+    public string Email { get; set; }
 }

@@ -13,16 +13,21 @@ public class EmployeesController(RusRoadsContext db, IMapper mapper) : Controlle
 {
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployess(){
+    public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployess()
+    {
 
         var emp = await db.Employees.ToListAsync();
+
+        var empDtom = emp.Select(e => new { Id = e.Id}).ToList();
+
         var empDto = mapper.Map<IEnumerable<EmployeeDto>>(emp);
 
         return Ok(empDto);
     }
 
     [HttpGet("subdivisionId")]
-    public async Task<ActionResult<IEnumerable<Employee>>> GetEmployeeBySubdivisions(int subdivisionId){
+    public async Task<ActionResult<IEnumerable<Employee>>> GetEmployeeBySubdivisions(int subdivisionId)
+    {
 
         var emp = await db.Employees.Where(e => e.SubdivisionId == subdivisionId).ToListAsync();
         var empDto = mapper.Map<IEnumerable<EmployeeDto>>(emp);
@@ -30,6 +35,25 @@ public class EmployeesController(RusRoadsContext db, IMapper mapper) : Controlle
         return Ok(empDto);
     }
 
+    [HttpPost]
+    public async Task<ActionResult<Employee>> Create(EmployeeDto empDto)
+    {
+
+        var emp = mapper.Map<Employee>(empDto);
+
+        try
+        {
+            db.Employees.Add(emp);
+            await db.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"{ex.InnerException.Message}");
+        }
+
+        return Created("", emp);
+
+    }
     // crud
 
     // список событий сотрудника по отпускам, отгулам и отсутствиям

@@ -1,50 +1,70 @@
 <h2 mat-title> Редактирование сотрудника </h2>
 
 <mat-dialog-content>
-    <p>
-        <input [disabled]="!isEdit" placeholder="Фио" matInput [(ngModel)]= "currentEmp.fio" />
-    </p>
-    <p>
-        <input [disabled]="!isEdit" placeholder="Фио" matInput [(ngModel)]= "currentEmp.fio" />
-      </p>
-    <p>
-      <input [disabled]="!isEdit" placeholder="Фио" matInput [(ngModel)]= "currentEmp.fio" />
-    </p>
-    <p>
-      <input [disabled]="!isEdit" placeholder="Мобильный телефон" type="tel" matInput [(ngModel)]= "currentEmp.phone"/>
-    </p>
-    <p>
-      <input [disabled]="!isEdit" placeholder="День рождения" type="date" matInput [(ngModel)]= "currentEmp.date"/>
-    </p>
-    <p>
-      <label> Подразделение </label>
-      <select [disabled]="!isEdit">
-        <option> Подразделение 1</option>
-      </select>
-    </p>
-    <p>
-      <label> Руководитель </label>
-      <select [disabled]="!isEdit">
-        <option> Сотрудник 1</option>
-      </select>
-    </p>
-    <p>
-      <label> Помощник </label>
-      <select [disabled]="!isEdit">
-        <option> Сотрудник 1</option>
-      </select>
-    </p>
-    <p>
-      <input [disabled]="!isEdit" placeholder="Должность" matInput [(ngModel)]= "currentEmp.position" />
-    </p>
-    <p>
-      <input [disabled]="!isEdit" placeholder="Кабинет" matInput [(ngModel)]= "currentEmp.cabinet" />
-    </p>
-    <p>
-      <input [disabled]="!isEdit" placeholder="Доп.информация" matInput [(ngModel)]= "currentEmp.info" />
-    </p>
-      
-  </mat-dialog-content>
+
+  <p>
+    <input placeholder="Фио" matInput [(ngModel)]= "currentEmp.fio" />
+  </p>
+
+  <p>
+    <input placeholder="Мобильный телефон" type="tel" matInput [(ngModel)]= "currentEmp.phone"/>
+  </p>
+
+  <p>
+    <label> Подразделение </label>
+    <select [(ngModel)] = "currentEmp.subdivision.id">
+      @for (sub of subdivisions; track sub.id) {
+        <option [value]="sub.id"> {{ sub.name }}</option>
+      }
+    </select>
+  </p>
+
+  <p>
+    <input placeholder="Должность" matInput [(ngModel)]= "currentEmp.position" />
+  </p>
+
+  <p>
+    <label> Руководитель </label>
+    <select [(ngModel)] = "currentEmp.head_id">
+
+      <option [value] = "null"> Нет руководителя </option>
+
+      @for (e of data[0]; track e.id) {
+        <option [value]="e.id"> {{ e.fio }}</option>
+      }
+    </select>
+  </p>
+
+  <p>
+    <label> Помощник </label>
+    <select [(ngModel)] = "currentEmp.helper_id">
+
+      <option [value] = "null"> Нет помощника </option>
+
+      @for (e of data[0]; track e.id) {
+        <option [value]="e.id"> {{ e.fio }}</option>
+      }
+    </select>
+  </p>
+
+  <p>
+    <input placeholder="День рождения" type="date" matInput [(ngModel)]= "currentEmp.birthday"/>
+  </p>
+
+  <p>
+    <input placeholder="Рабочий телефон" type="tel" matInput [(ngModel)]= "currentEmp.job_phone"/>
+  </p>
+
+  <p>
+    <input placeholder="Электронная почта" matInput [(ngModel)]= "currentEmp.email" />
+  </p>
+
+  <p>
+    <input placeholder="Кабинет" matInput [(ngModel)]= "currentEmp.cabinet" />
+  </p>
+  
+    
+</mat-dialog-content>
 
 <mat-dialog-actions>
     <button (click)="ok()"> Ok</button>

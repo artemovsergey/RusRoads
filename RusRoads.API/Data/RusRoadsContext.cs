@@ -3,8 +3,14 @@ using RusRoads.API.Entities;
 
 namespace RusRoads.API.Data;
 
-public class RusRoadsContext(DbContextOptions options) : DbContext(options)
+public class RusRoadsContext : DbContext
 {
+
+    public RusRoadsContext(DbContextOptions opt) : base(opt)
+    {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+    }
+
     public DbSet<User> Users { get; set; }
     public DbSet<Employee> Employees { get; set; }
     public DbSet<Subdivision> Subdivisions { get; set; }
@@ -24,10 +30,7 @@ public class RusRoadsContext(DbContextOptions options) : DbContext(options)
     public DbSet<Comment> Comments { get; set; }
 
 
-    // public RusRoadsContext(DbContextOptions options) : base(options)
-    // {
 
-    // }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

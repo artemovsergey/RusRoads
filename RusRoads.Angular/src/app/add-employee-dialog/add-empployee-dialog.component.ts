@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog'
@@ -7,12 +7,11 @@ import { SubdivisonsService } from '../../services/subdivisons.service';
 
 @Component({
   selector: 'app-addemp',
-  imports: [MatDialogModule, CommonModule, FormsModule],
+  imports: [MatDialogModule, CommonModule, FormsModule ],
   templateUrl: './add-employee-dialog.component.html',
   styleUrl: './add-employee-dialog.component.scss'
 })
 export class AddEmployeeDialogComponent implements OnInit {
-
 
   subService = inject(SubdivisonsService)
   dialogRef = inject(MatDialogRef<AddEmployeeDialogComponent>)
@@ -23,14 +22,20 @@ export class AddEmployeeDialogComponent implements OnInit {
   currentEmp: Employee = {
     id: 0,
     fio: '',
-    subdivisionId: 0,
-    headId:0,
-    helperId: 0,
+      subdivision_id: 0,
+      subdivision: {
+        id: 0,
+        name: '',
+        head_subdivision_id: 0
+      },
+    head_id: 0,
+    helper_id: 0,
     phone: '',
-    date: new Date(),
+    birthday: new Date("2020-01-01"),
     position: '',
     cabinet: '',
-    info: ''
+    job_phone: '',
+    email: ''
   }
 
   ngOnInit(): void {
@@ -39,7 +44,7 @@ export class AddEmployeeDialogComponent implements OnInit {
   }
 
   ok() {
-    console.log("Передана задача: ", this.currentEmp)
+    console.log("Передан сотрудник: ", this.currentEmp)
     this.dialogRef.close(this.currentEmp)
   }
   

@@ -5,6 +5,7 @@ import { Employee } from '../../models/employee';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { SubdivisonsService } from '../../services/subdivisons.service';
 
 @Component({
   selector: 'app-edit-employee-dialog',
@@ -14,14 +15,16 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class EditEmployeeDialogComponent implements OnInit {
 
-
+  subService = inject(SubdivisonsService)
+  subdivisions: any[] = [] 
   dialogRef = inject(MatDialogRef<EditEmployeeDialogComponent>)
-  data = inject<Employee>(MAT_DIALOG_DATA)
-  currentEmp: Employee = this.data
+  data = inject<any[]>(MAT_DIALOG_DATA)
+  currentEmp: Employee = this.data[1]
   isEdit: boolean = false;
 
   ngOnInit(): void {
-    console.log(this.data)
+    console.log(this.data[1])
+    this.subService.getll().subscribe(r => this.subdivisions = r)
   }
 
   cancel() {
@@ -29,7 +32,7 @@ export class EditEmployeeDialogComponent implements OnInit {
   }
 
   ok() {
-    console.log("Передана задача: ", this.currentEmp)
+    console.log("Передан сотрудник: ", this.currentEmp)
     this.dialogRef.close(this.currentEmp)
   }
 

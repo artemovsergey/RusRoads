@@ -1,20 +1,19 @@
 import { Subdivision } from "./subdivision";
 
-export interface Employee{
+export interface Employee {
+
     id: number,
     fio: string,
     phone: string,
-    date: Date,
+    birthday: Date,
+
+    subdivision_id: number,
+    subdivision: Subdivision,
+    
     position: string,
-    cabinet: string,
-    info: string,
-
-    subdivisionId: number,
-    subdivision?: Subdivision
-
-    helperId: number,
-    helper?: Employee,
-
-    headId: number,
-    head?: Employee
+    head_id: number,
+    helper_id: number,
+    job_phone: string,
+    email: string,
+    cabinet: string
 }

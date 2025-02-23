@@ -5,46 +5,58 @@
   <p>
     <input placeholder="Фио" matInput [(ngModel)]= "currentEmp.fio" />
   </p>
+
   <p>
     <input placeholder="Мобильный телефон" type="tel" matInput [(ngModel)]= "currentEmp.phone"/>
   </p>
-  <p>
-    <input placeholder="День рождения" type="date" matInput [(ngModel)]= "currentEmp.date"/>
-  </p>
+
   <p>
     <label> Подразделение </label>
-    <select [(ngModel)] = "currentEmp.subdivisionId">
+    <select [(ngModel)] = "currentEmp.subdivision_id">
       @for (sub of subdivisions; track $index) {
         <option [value]="sub.id"> {{ sub.name }}</option>
       }
     </select>
   </p>
-  <p>
-    <label> Руководитель </label>
-    <select [(ngModel)] = "currentEmp.headId">
-      @for (e of data; track $index) {
-        <option [value]="e.id"> {{ e.fio }}</option>
-      }
-    </select>
-  </p>
-  <p>
-    <label> Помощник </label>
-    <select [(ngModel)] = "currentEmp.helperId">
-      @for (e of data; track $index) {
-        <option [value]="e.id"> {{ e.fio }}</option>
-      }
-    </select>
-  </p>
+
   <p>
     <input placeholder="Должность" matInput [(ngModel)]= "currentEmp.position" />
   </p>
+
+  <p>
+    <label> Руководитель </label>
+    <select [(ngModel)] = "currentEmp.head_id">
+      @for (e of data; track $index) {
+        <option [value]="e.id"> {{ e.fio }}</option>
+      }
+    </select>
+  </p>
+
+  <p>
+    <label> Помощник </label>
+    <select [(ngModel)] = "currentEmp.helper_id">
+      @for (e of data; track $index) {
+        <option [value]="e.id"> {{ e.fio }}</option>
+      }
+    </select>
+  </p>
+
+  <p>
+    <input placeholder="День рождения" type="date" matInput [(ngModel)]= "currentEmp.birthday" />
+  </p>
+
+  <p>
+    <input placeholder="Рабочий телефон" type="tel" matInput [(ngModel)]= "currentEmp.job_phone"/>
+  </p>
+
+  <p>
+    <input placeholder="Электронная почта" matInput [(ngModel)]= "currentEmp.email" />
+  </p>
+
   <p>
     <input placeholder="Кабинет" matInput [(ngModel)]= "currentEmp.cabinet" />
   </p>
-  <p>
-    <input placeholder="Доп.информация" matInput [(ngModel)]= "currentEmp.info" />
-  </p>
-    
+      
 </mat-dialog-content>
 
 <mat-dialog-actions>

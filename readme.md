@@ -297,3 +297,6 @@ ALTER SEQUENCE "Subdivisions_Id_seq" RESTART 48;
 
 - можно установить отдельно ```@angular/service-worker```, но лучше ```ng add @angular/pwa```
 - если через ng add не устанавливается пакет, то npm install
+
+
+- могут быть проблемы с AutoMapper в обратунуб сторону из dto в модель

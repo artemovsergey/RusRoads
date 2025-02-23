@@ -45,7 +45,7 @@ app.MapOpenApi();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseHttpsRedirection();
-app.UseCors(o => o.AllowAnyOrigin());
+app.UseCors(o => o.AllowAnyOrigin().AllowAnyHeader());
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

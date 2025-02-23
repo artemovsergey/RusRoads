@@ -30,9 +30,12 @@ public class SubdivisionsController(RusRoadsContext db, IMapper mapper) : Contro
     }
 
     [HttpGet("{subdivisionId}/employees")]
-    public IEnumerable<Employee> GetAll(int subdivisionId)
+    public IEnumerable<EmployeeDto> GetAll(int subdivisionId)
     {
-        return db.Employees.Where(s => s.SubdivisionId == subdivisionId).ToList();
+         var employees = db.Employees.Where(s => s.SubdivisionId == subdivisionId).ToList();
+         var empDto = mapper.Map<IEnumerable<EmployeeDto>>(employees);
+
+        return empDto;
     }
 
     private IEnumerable<Employee> GetEmployees(int id)
