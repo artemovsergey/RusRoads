@@ -11,9 +11,9 @@
 
         <ng-template #nodeTemplate let-node>
             <svg:g class="node">
-                <svg:rect [attr.width]="200" [attr.height]="50" fill="#f9f9f9" stroke="#ccc" stroke-width="1"/>
-                <svg:text  (click)="getEmployeeBySub(node)" alignment-baseline="central" [attr.x]="10" [attr.y]="20">
-                    {{ node.label }}
+                <svg:rect [attr.width]="100" [attr.height]="50" fill="#f9f9f9" stroke="#ccc" stroke-width="1"/>
+                <svg:text  (click)="getEmployeesAllBySub(node)" alignment-baseline="central" [attr.x]="15" [attr.y]="20">
+                    {{ shortTitle(node.label) }}
                 </svg:text>
             </svg:g>
         </ng-template>

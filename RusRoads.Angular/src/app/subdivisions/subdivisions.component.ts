@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { DagreLayout, NgxGraphModule, Orientation } from '@swimlane/ngx-graph';
-import { ParseXmlService } from '../../services/parse-xml.service';
 import { CommonModule } from '@angular/common';
 import { SubdivisonsService } from '../../services/subdivisons.service';
 import { catchError, of, tap } from 'rxjs';
@@ -14,53 +13,64 @@ import { catchError, of, tap } from 'rxjs';
 })
 export class SubdivisionsComponent {
 
-  subdivisions: any[] = []
-
   nodes: any[] = [];
   links: any[] = [];
   layout = new DagreLayout();
 
   subdivisionService = inject(SubdivisonsService)
 
+  ngOnInit(): void {
+    this.subdivisionService.getll().subscribe( r => { this.prepareData(r)} )
+    this.layout.settings.orientation = Orientation.TOP_TO_BOTTOM
+  }
+
   // getEmployeeBySub(node: any) {
   //     this.subdivisionService.getEmployee(node.id).subscribe(r => {console.log(r); this.subdivisionService.emp$.next(r) } )
   // }
 
-  getEmployeeBySub(node: any) {
-    this.subdivisionService.getEmployee(node.id).pipe(
+  getEmployeesAllBySub(node: any) {
+
+    // рассылаем текущее подразделение
+    this.subdivisionService.currentSubId$.next(node.id)
+
+    // получаем связанных сотрудников по узлу
+    this.subdivisionService.getEmployeesAll(node.id).pipe(
       tap(r => console.log(r)),
-      tap(r => this.subdivisionService.emp$.next(r)),
+      tap(r => this.subdivisionService.employeesAll$.next(r)),
       catchError(error => {
         console.error('Error fetching employees:', error);
         return of([]); // Возвращаем пустой массив в случае ошибки
       })
     ).subscribe();
+
+    
+
   }
 
-  ngOnInit(): void {
+  // подготовка данных для отображения в виде графа
+  prepareData(data: any[]) {
+    this.nodes = data.map((item) => ({
+      id: item.id.toString(),
+      label: item.name,
+    }));
 
-    this.subdivisionService.getll().subscribe( r => {this.subdivisions = r;this.prepareData(r)} )
-    console.log(this.subdivisions)
-    console.log('Nodes:', this.nodes);
-    console.log('Links:', this.links);
-
-    // Настройка ориентации
-    this.layout.settings.orientation = Orientation.TOP_TO_BOTTOM
-  }
-  
-    prepareData(data: any[]) {
-      this.nodes = data.map((item) => ({
-        id: item.id.toString(),
-        label: item.name,
+    this.links = data
+      .filter((item) => item.head_subdivision_id !== 0 )
+      .map((item) => ({
+        source: item.head_subdivision_id.toString(),
+        target: item.id.toString(),
       }));
-  
-      this.links = data
-        .filter((item) => item.head_subdivision_id !== 0 )
-        .map((item) => ({
-          source: item.head_subdivision_id.toString(),
-          target: item.id.toString(),
-        }));
-    }
+  }
+
+  // сокращение имен, чтобы название не выходило за прямоугольник
+  shortTitle(title: String){
+    var splitArr = title.trim().split(" ")
+    var resultArr: string[] = []
+    splitArr.forEach(e => {
+      resultArr.push(e.slice(0,3))
+    });
+    return resultArr.join(".").toUpperCase().slice(0,7)
+  }
 
 
 }

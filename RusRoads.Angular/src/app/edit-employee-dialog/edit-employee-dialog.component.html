@@ -1,8 +1,50 @@
 <h2 mat-title> Редактирование сотрудника </h2>
 
 <mat-dialog-content>
-    <input [disabled]="!isEdit" matInput [(ngModel)] = "currentEmployee.fio" />
-</mat-dialog-content>
+    <p>
+        <input [disabled]="!isEdit" placeholder="Фио" matInput [(ngModel)]= "currentEmp.fio" />
+    </p>
+    <p>
+        <input [disabled]="!isEdit" placeholder="Фио" matInput [(ngModel)]= "currentEmp.fio" />
+      </p>
+    <p>
+      <input [disabled]="!isEdit" placeholder="Фио" matInput [(ngModel)]= "currentEmp.fio" />
+    </p>
+    <p>
+      <input [disabled]="!isEdit" placeholder="Мобильный телефон" type="tel" matInput [(ngModel)]= "currentEmp.phone"/>
+    </p>
+    <p>
+      <input [disabled]="!isEdit" placeholder="День рождения" type="date" matInput [(ngModel)]= "currentEmp.date"/>
+    </p>
+    <p>
+      <label> Подразделение </label>
+      <select [disabled]="!isEdit">
+        <option> Подразделение 1</option>
+      </select>
+    </p>
+    <p>
+      <label> Руководитель </label>
+      <select [disabled]="!isEdit">
+        <option> Сотрудник 1</option>
+      </select>
+    </p>
+    <p>
+      <label> Помощник </label>
+      <select [disabled]="!isEdit">
+        <option> Сотрудник 1</option>
+      </select>
+    </p>
+    <p>
+      <input [disabled]="!isEdit" placeholder="Должность" matInput [(ngModel)]= "currentEmp.position" />
+    </p>
+    <p>
+      <input [disabled]="!isEdit" placeholder="Кабинет" matInput [(ngModel)]= "currentEmp.cabinet" />
+    </p>
+    <p>
+      <input [disabled]="!isEdit" placeholder="Доп.информация" matInput [(ngModel)]= "currentEmp.info" />
+    </p>
+      
+  </mat-dialog-content>
 
 <mat-dialog-actions>
     <button (click)="ok()"> Ok</button>
