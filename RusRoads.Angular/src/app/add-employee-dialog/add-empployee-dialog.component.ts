@@ -16,21 +16,21 @@ export class AddEmployeeDialogComponent implements OnInit {
 
   subService = inject(SubdivisonsService)
   dialogRef = inject(MatDialogRef<AddEmployeeDialogComponent>)
-  data = inject<Employee[]>(MAT_DIALOG_DATA)
+  data = inject<any[]>(MAT_DIALOG_DATA)
 
   subdivisions: Subdivision[] = []
 
   currentEmp: Employee = {
     id: 0,
     fio: '',
-      subdivision_id: 0,
+      subdivision_id: this.data[1],
       subdivision: {
         id: 0,
         name: '',
         head_subdivision_id: 0
       },
-    head_id: 0,
-    helper_id: 0,
+    head_id: null,
+    helper_id: null,
     phone: '',
     birthday: new Date("2020-01-01"),
     position: '',
@@ -40,7 +40,6 @@ export class AddEmployeeDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("data", this.data)
     this.subService.getll().subscribe(r => this.subdivisions = r)
   }
 

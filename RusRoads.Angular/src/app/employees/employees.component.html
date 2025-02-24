@@ -6,7 +6,8 @@
 
 <div class="employees">
         @for (e of employees; track $index) {
-            <p> <app-employee [employee]="e"  (selectEmployee) = editEmployee($event)  /> </p>
+            <p> <app-employee [employee]="e"  (selectEmployee) = "editEmployee($event)"
+                                              (deleteEmployee) = "deleteEmployee($event)"  /> </p>
         }
 
         <button (click)="addEmp()"> 

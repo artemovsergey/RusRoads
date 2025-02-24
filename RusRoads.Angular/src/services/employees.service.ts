@@ -18,4 +18,12 @@ export class EmployeesService {
     return this.http.post<Employee>(`${environment.api}/Employees`, employeeDto)
   }
 
+  update(employeeDto: Employee){
+    return this.http.put<Employee>(`${environment.api}/Employees`, employeeDto)
+  }
+
+  delete(employeeDto: Employee){
+    return this.http.delete<Employee>(`${environment.api}/Employees/${employeeDto.id}`)
+  }
+
 }

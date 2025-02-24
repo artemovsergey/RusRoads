@@ -8,6 +8,7 @@ import { EditEmployeeDialogComponent } from '../edit-employee-dialog/edit-employ
 import { AddEmployeeDialogComponent } from '../add-employee-dialog/add-empployee-dialog.component';
 import { Employee } from '../../models/employee';
 import { EmployeesService } from '../../services/employees.service';
+import { catchError, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-empoyees',
@@ -26,9 +27,10 @@ export class EmpoyeesComponent implements OnInit{
   currentSubId!: number
 
   ngOnInit() {
+
     this.subService.currentSubId$.subscribe( r => {
       this.currentSubId = r; 
-      console.log(this.currentSubId);
+      console.log("Текущее подразделение: ", this.currentSubId);
       this.subService.getEmployees(this.currentSubId).subscribe(r => {this.currentEmployees = r; console.log(r)})
     })
 
@@ -39,7 +41,7 @@ export class EmpoyeesComponent implements OnInit{
   addEmp() {
     const dialogRef = this.dialog.open(
       AddEmployeeDialogComponent,
-      {data: this.currentEmployees, autoFocus: true, width: '50%'}  // конфигурация
+      {data: [this.currentEmployees, this.currentSubId], autoFocus: true, width: '50%'}  // конфигурация
     );
 
     dialogRef.afterClosed().subscribe(result => {
@@ -51,7 +53,7 @@ export class EmpoyeesComponent implements OnInit{
             // this.empService.getAll().subscribe(r => {
             //   this.empService.tasks$.next(r)
             // })
-            console.log(result)
+            console.log("Создание сотрудника: ", result)
           },
           error => { console.log(error.message) }
         )
@@ -68,6 +70,36 @@ export class EmpoyeesComponent implements OnInit{
       EditEmployeeDialogComponent,
       {data: [this.currentEmployees, $event], autoFocus: true, width: '50%'}  // конфигурация
     );
+
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result && result as Employee){
+
+        this.empService.update(result).subscribe(
+          next => {
+            // this.empService.getAll().subscribe(r => {
+            //   this.empService.tasks$.next(r)
+            // })
+            console.log("Обновление сотрудника: ", result)
+          },
+          error => { console.log(error.message) }
+        )
+      }
+    });
+  }
+
+
+  deleteEmployee($event: Employee) {
+    this.empService.delete($event).pipe(
+      switchMap(() => this.subService.getEmployeesAll(this.currentSubId)),
+      catchError(error => {
+        console.error('Ошибка удаления сотрудника:', error);
+        return of([]); // Возвращаем пустой массив или другое значение по умолчанию
+      })
+    ).subscribe(employees => {
+      this.subService.employeesAll$.next(employees);
+    });
   }
 
 }

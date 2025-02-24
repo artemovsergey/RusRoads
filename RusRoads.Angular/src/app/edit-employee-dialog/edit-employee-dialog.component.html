@@ -12,7 +12,7 @@
 
   <p>
     <label> Подразделение </label>
-    <select [(ngModel)] = "currentEmp.subdivision.id">
+    <select [(ngModel)] = "currentEmp.subdivision_id">
       @for (sub of subdivisions; track sub.id) {
         <option [value]="sub.id"> {{ sub.name }}</option>
       }

@@ -13,6 +13,9 @@
   <p>
     <label> Подразделение </label>
     <select [(ngModel)] = "currentEmp.subdivision_id">
+
+      <option [ngValue] = "null"> Нет подразделения </option>
+
       @for (sub of subdivisions; track $index) {
         <option [value]="sub.id"> {{ sub.name }}</option>
       }
@@ -26,7 +29,10 @@
   <p>
     <label> Руководитель </label>
     <select [(ngModel)] = "currentEmp.head_id">
-      @for (e of data; track $index) {
+
+      <option [value] = "null"> Нет руководителя </option>
+
+      @for (e of data[0]; track $index) {
         <option [value]="e.id"> {{ e.fio }}</option>
       }
     </select>
@@ -35,7 +41,10 @@
   <p>
     <label> Помощник </label>
     <select [(ngModel)] = "currentEmp.helper_id">
-      @for (e of data; track $index) {
+
+      <option [value] = "null"> Нет помощника </option>
+
+      @for (e of data[0]; track $index) {
         <option [value]="e.id"> {{ e.fio }}</option>
       }
     </select>

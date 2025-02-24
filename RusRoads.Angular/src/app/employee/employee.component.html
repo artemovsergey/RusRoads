@@ -5,4 +5,10 @@
     <p> Телефон: {{employee.phone}} </p>
     <p> Кабинет: {{employee.cabinet}} </p>
     <p> Email: {{employee.email}} </p>
+
+    <button (click)="deleteEmp(employee); $event.stopPropagation()">
+        <div>
+            <mat-icon>person</mat-icon>
+        </div>
+    </button>
 </div>

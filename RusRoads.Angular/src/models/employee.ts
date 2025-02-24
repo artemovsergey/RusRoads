@@ -11,8 +11,8 @@ export interface Employee {
     subdivision: Subdivision,
     
     position: string,
-    head_id: number,
-    helper_id: number,
+    head_id: number | null,
+    helper_id: number | null,
     job_phone: string,
     email: string,
     cabinet: string

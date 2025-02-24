@@ -25,9 +25,8 @@ export class SubdivisionsComponent {
   // ]
 
   ngOnInit(): void {
-    this.subdivisionService.getll().subscribe( r => { this.prepareData(r); console.log("data:",r)} )
+    this.subdivisionService.getll().subscribe( r => { this.prepareData(r) } )
     this.layout.settings.orientation = Orientation.TOP_TO_BOTTOM
-
   }
 
   // getEmployeeBySub(node: any) {
@@ -41,19 +40,14 @@ export class SubdivisionsComponent {
 
     // получаем связанных сотрудников по узлу
     this.subdivisionService.getEmployeesAll(node.id).pipe(
-      tap(r => console.log(r)),
+      tap(r => {}),
       tap(r => this.subdivisionService.employeesAll$.next(r)),
       catchError(error => {
         console.error('Error fetching employees:', error);
         return of([]); // Возвращаем пустой массив в случае ошибки
       })
     ).subscribe();
-
-    
-
   }
-
-
 
   // подготовка данных для отображения в виде графа
   prepareData(data: any[]) {
@@ -62,8 +56,6 @@ export class SubdivisionsComponent {
       label: item.name,
     }));
 
-    console.log("nodes", this.nodes)
-
     this.links = data
       .filter((item) => item.head_subdivision_id !== null )
       .map((item) => ({
@@ -71,8 +63,6 @@ export class SubdivisionsComponent {
         target: item.id.toString(),
       }));
 
-
-    console.log("links", this.links)
   }
 
   // сокращение имен, чтобы название не выходило за прямоугольник

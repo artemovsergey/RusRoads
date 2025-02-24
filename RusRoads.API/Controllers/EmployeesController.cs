@@ -54,6 +54,46 @@ public class EmployeesController(RusRoadsContext db, IMapper mapper) : Controlle
         return Created("", emp);
 
     }
+
+
+    [HttpPut]
+    public async Task<ActionResult<Employee>> Update(EmployeeDto employeeDto){
+
+        var emp = mapper.Map<Employee>(employeeDto);
+
+        try
+        {
+          db.Employees.Update(emp);
+          await db.SaveChangesAsync();
+        }
+        catch (System.Exception ex)
+        {
+            throw new Exception($"{ex.InnerException!.Message}");
+        }
+        
+        return Ok(emp);
+    }
+
+
+    [HttpDelete("{empId}")]
+    public async Task<ActionResult<Employee>> Delete(int empId){
+
+        var emp = db.Employees.Find(empId);
+        if(emp == null) return BadRequest($"Нет сотрудника с id = {empId}");
+
+        try
+        {
+           db.Employees.Remove(emp);
+           await db.SaveChangesAsync();
+        }
+        catch (System.Exception ex)
+        {
+            throw new Exception($"{ex.InnerException.Message}");
+        }
+        
+        return Ok(emp);
+
+    }
     // crud
 
     // список событий сотрудника по отпускам, отгулам и отсутствиям
