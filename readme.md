@@ -301,3 +301,4 @@ ALTER SEQUENCE "Subdivisions_Id_seq" RESTART 48;
 
 - могут быть проблемы с AutoMapper в обратунуб сторону из dto в модель
 - для работы с DateTime и Postgres надо настроить контекст
+- Validate.email не рабоатет c кириллицей

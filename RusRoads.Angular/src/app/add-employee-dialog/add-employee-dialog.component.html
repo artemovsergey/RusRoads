@@ -2,17 +2,26 @@
 
 <mat-dialog-content>
 
+<form #empForm="ngForm">
   <p>
-    <input placeholder="Фио" matInput [(ngModel)]= "currentEmp.fio" />
+    <input placeholder="Фио" name="fio" #fio="ngModel" matInput [(ngModel)]= "currentEmp.fio" required />
   </p>
 
+
+  <!-- Уведомлнение пользователя -->
+  <div *ngIf="fio.invalid && (fio.dirty || fio.touched)">
+    <div *ngIf="fio.errors?.['required']">ФИО обязательно для заполнения.</div>
+    <div *ngIf="fio.errors?.['minlength']">ФИО должно содержать минимум 3 символа.</div>
+    <div *ngIf="fio.errors?.['maxlength']">ФИО должно содержать не более 100 символов.</div>
+  </div>
+
   <p>
-    <input placeholder="Мобильный телефон" type="tel" matInput [(ngModel)]= "currentEmp.phone"/>
+    <input placeholder="Мобильный телефон" type="tel"  name="phone" #phone="ngModel" type="text" matInput [(ngModel)]= "currentEmp.phone" maxlength="20" pattern="^[0-9+\-() #]{1,20}$" />
   </p>
 
   <p>
     <label> Подразделение </label>
-    <select [(ngModel)] = "currentEmp.subdivision_id">
+    <select name="subdivision_id" [(ngModel)] = "currentEmp.subdivision_id" required>
 
       <option [ngValue] = "null"> Нет подразделения </option>
 
@@ -23,12 +32,12 @@
   </p>
 
   <p>
-    <input placeholder="Должность" matInput [(ngModel)]= "currentEmp.position" />
+    <input placeholder="Должность" name="position" matInput [(ngModel)]= "currentEmp.position" required />
   </p>
 
   <p>
     <label> Руководитель </label>
-    <select [(ngModel)] = "currentEmp.head_id">
+    <select name="head_id" [(ngModel)] = "currentEmp.head_id">
 
       <option [value] = "null"> Нет руководителя </option>
 
@@ -40,7 +49,7 @@
 
   <p>
     <label> Помощник </label>
-    <select [(ngModel)] = "currentEmp.helper_id">
+    <select name="helper_id" [(ngModel)] = "currentEmp.helper_id">
 
       <option [value] = "null"> Нет помощника </option>
 
@@ -51,24 +60,26 @@
   </p>
 
   <p>
-    <input placeholder="День рождения" type="date" matInput [(ngModel)]= "currentEmp.birthday" />
+    <input placeholder="День рождения" name="birthday" type="date" matInput [(ngModel)]= "currentEmp.birthday" />
   </p>
 
   <p>
-    <input placeholder="Рабочий телефон" type="tel" matInput [(ngModel)]= "currentEmp.job_phone"/>
+    <input placeholder="Рабочий телефон" name="jobphone" type="tel" matInput [(ngModel)]= "currentEmp.job_phone" required maxlength="20" pattern="^[0-9+\-() #]{1,20}$" />
   </p>
 
   <p>
-    <input placeholder="Электронная почта" matInput [(ngModel)]= "currentEmp.email" />
+    <input placeholder="Электронная почта" name="email" matInput [(ngModel)]= "currentEmp.email" required email pattern="^[a-zA-Zа-яА-Я0-9._%+-]+@[a-zA-Zа-яА-Я0-9.-]+\.[a-zA-Zа-яА-Я]{2,}$" />
   </p>
 
   <p>
-    <input placeholder="Кабинет" matInput [(ngModel)]= "currentEmp.cabinet" />
+    <input placeholder="Кабинет" name="cabinet" matInput [(ngModel)]= "currentEmp.cabinet" required maxlength="10" />
   </p>
-      
+
+</form>
+
 </mat-dialog-content>
 
 <mat-dialog-actions>
   <button mat-stroked-button color="primary" (click) = "cancell()" cdkFocusInitial>Cancel</button>
-  <button mat-flat-button color="primary" [disabled]="currentEmp.fio.trim().length == 0"  (click) = "ok()">Ok</button>
+  <button type="submit" mat-flat-button color="primary" [disabled]="empForm.invalid"  (click) = "ok()">Ok</button>
 </mat-dialog-actions>

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog'
 import { Employee } from '../../models/employee';
 import { SubdivisonsService } from '../../services/subdivisons.service';
@@ -10,7 +10,8 @@ import { Subdivision } from '../../models/subdivision';
   selector: 'app-addemp',
   imports: [MatDialogModule, CommonModule, FormsModule ],
   templateUrl: './add-employee-dialog.component.html',
-  styleUrl: './add-employee-dialog.component.scss'
+  styleUrl: './add-employee-dialog.component.scss',
+  standalone: true
 })
 export class AddEmployeeDialogComponent implements OnInit {
 

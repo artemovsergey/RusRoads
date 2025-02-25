@@ -1,75 +1,62 @@
-<h2 mat-title> Редактирование сотрудника </h2>
+<h2 mat-dialog-title> Редактирование сотрудника </h2>
 
 <mat-dialog-content>
+  <form [formGroup]="empForm">
+    <p>
+      <input placeholder="Фио" formControlName="fio" matInput required />
+    </p>
 
-  <p>
-    <input placeholder="Фио" matInput [(ngModel)]= "currentEmp.fio" />
-  </p>
+    <p>
+      <input placeholder="Мобильный телефон" type="tel" formControlName="phone" matInput />
+    </p>
 
-  <p>
-    <input placeholder="Мобильный телефон" type="tel" matInput [(ngModel)]= "currentEmp.phone"/>
-  </p>
+    <p>
+      <label> Подразделение </label>
+      <select formControlName="subdivision_id" required>
+        <option [ngValue]="null"> Нет подразделения </option>
+        <option *ngFor="let sub of subdivisions" [value]="sub.id">{{ sub.name }}</option>
+      </select>
+    </p>
 
-  <p>
-    <label> Подразделение </label>
-    <select [(ngModel)] = "currentEmp.subdivision_id">
-      @for (sub of subdivisions; track sub.id) {
-        <option [value]="sub.id"> {{ sub.name }}</option>
-      }
-    </select>
-  </p>
+    <p>
+      <input placeholder="Должность" formControlName="position" matInput required />
+    </p>
 
-  <p>
-    <input placeholder="Должность" matInput [(ngModel)]= "currentEmp.position" />
-  </p>
+    <p>
+      <label> Руководитель </label>
+      <select formControlName="head_id">
+        <option [ngValue]="null"> Нет руководителя </option>
+        <option *ngFor="let e of data[0]" [value]="e.id">{{ e.fio }}</option>
+      </select>
+    </p>
 
-  <p>
-    <label> Руководитель </label>
-    <select [(ngModel)] = "currentEmp.head_id">
+    <p>
+      <label> Помощник </label>
+      <select formControlName="helper_id">
+        <option [ngValue]="null"> Нет помощника </option>
+        <option *ngFor="let e of data[0]" [value]="e.id">{{ e.fio }}</option>
+      </select>
+    </p>
 
-      <option [value] = "null"> Нет руководителя </option>
+    <p>
+      <input placeholder="День рождения" type="date" formControlName="birthday" matInput />
+    </p>
 
-      @for (e of data[0]; track e.id) {
-        <option [value]="e.id"> {{ e.fio }}</option>
-      }
-    </select>
-  </p>
+    <p>
+      <input placeholder="Рабочий телефон" type="tel" formControlName="job_phone" matInput required />
+    </p>
 
-  <p>
-    <label> Помощник </label>
-    <select [(ngModel)] = "currentEmp.helper_id">
+    <p>
+      <input placeholder="Электронная почта" formControlName="email" matInput required />
+    </p>
 
-      <option [value] = "null"> Нет помощника </option>
-
-      @for (e of data[0]; track e.id) {
-        <option [value]="e.id"> {{ e.fio }}</option>
-      }
-    </select>
-  </p>
-
-  <p>
-    <input placeholder="День рождения" type="date" matInput [(ngModel)]= "currentEmp.birthday"/>
-  </p>
-
-  <p>
-    <input placeholder="Рабочий телефон" type="tel" matInput [(ngModel)]= "currentEmp.job_phone"/>
-  </p>
-
-  <p>
-    <input placeholder="Электронная почта" matInput [(ngModel)]= "currentEmp.email" />
-  </p>
-
-  <p>
-    <input placeholder="Кабинет" matInput [(ngModel)]= "currentEmp.cabinet" />
-  </p>
-  
-    
+    <p>
+      <input placeholder="Кабинет" formControlName="cabinet" matInput required />
+    </p>
+  </form>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-    <button (click)="ok()"> Ok</button>
-    <button (click)="cancel()"> Cancel</button>
-    <button (click)="isEdit = !isEdit">
-        <mat-icon>edit</mat-icon>
-    </button>  
+  <button mat-stroked-button color="primary" (click)="cancel()" cdkFocusInitial>Cancel</button>
+  <button type="submit" mat-flat-button color="primary" [disabled]="empForm.invalid" (click)="ok()">Ok</button>
 </mat-dialog-actions>
