@@ -21,6 +21,14 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Helper, opt => opt.Ignore())
             .ForMember(dest => dest.ManagedId, opt => opt.Ignore())
             .ForMember(dest => dest.ManagedSubdivision, opt => opt.Ignore())
-            .ForMember(dest => dest.Subdivision, opt => opt.Ignore());
+            .ForMember(dest => dest.Subdivision, opt => opt.Ignore())
+            .ForMember(dest => dest.DismissDate, opt => opt.Ignore());
+
+
+        CreateMap<Event,EventDto>().ReverseMap();
+
+
+
+        
     }
 }

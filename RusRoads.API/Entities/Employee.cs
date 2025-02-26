@@ -34,18 +34,7 @@ public class Employee : Base
     
     [ForeignKey("ManagedId")]
     public Subdivision? ManagedSubdivision { get; set; }
-    
-
-
-
-
-
-
-
-
-
-
-
     public IEnumerable<Event>? Events {get; set;}
+    public DateTime? DismissDate {get ;set;} = null;
 
 }

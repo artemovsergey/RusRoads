@@ -40,9 +40,9 @@ export class EditEmployeeDialogComponent implements OnInit {
     });
 
     // Подписка на изменения формы
-    this.empForm.valueChanges.subscribe((values) => {
-      this.currentEmp = { ...this.currentEmp, ...values };
-    });
+    // this.empForm.valueChanges.subscribe((values) => {
+    //   this.currentEmp = { ...this.currentEmp, ...values };
+    // });
 
   }
 

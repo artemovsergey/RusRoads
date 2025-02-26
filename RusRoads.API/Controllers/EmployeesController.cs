@@ -18,7 +18,7 @@ public class EmployeesController(RusRoadsContext db, IMapper mapper) : Controlle
 
         var emp = await db.Employees.ToListAsync();
 
-        var empDtom = emp.Select(e => new { Id = e.Id}).ToList();
+        var empDtom = emp.Select(e => new { Id = e.Id }).ToList();
 
         var empDto = mapper.Map<IEnumerable<EmployeeDto>>(emp);
 
@@ -48,7 +48,7 @@ public class EmployeesController(RusRoadsContext db, IMapper mapper) : Controlle
         }
         catch (Exception ex)
         {
-            throw new Exception($"{ex.InnerException.Message}");
+            throw new Exception($"{ex.InnerException?.Message}");
         }
 
         return Created("", emp);
@@ -57,49 +57,81 @@ public class EmployeesController(RusRoadsContext db, IMapper mapper) : Controlle
 
 
     [HttpPut]
-    public async Task<ActionResult<Employee>> Update(EmployeeDto employeeDto){
+    public async Task<ActionResult<Employee>> Update(EmployeeDto employeeDto)
+    {
 
         var emp = mapper.Map<Employee>(employeeDto);
 
         try
         {
-          db.Employees.Update(emp);
-          await db.SaveChangesAsync();
+            db.Employees.Update(emp);
+            await db.SaveChangesAsync();
         }
         catch (System.Exception ex)
         {
             throw new Exception($"{ex.InnerException!.Message}");
         }
-        
+
         return Ok(emp);
     }
 
 
     [HttpDelete("{empId}")]
-    public async Task<ActionResult<Employee>> Delete(int empId){
+    public async Task<ActionResult<Employee>> Delete(int empId)
+    {
 
         var emp = db.Employees.Find(empId);
-        if(emp == null) return BadRequest($"Нет сотрудника с id = {empId}");
+        if (emp == null) return BadRequest($"Нет сотрудника с id = {empId}");
 
         try
         {
-           db.Employees.Remove(emp);
-           await db.SaveChangesAsync();
+            db.Employees.Remove(emp);
+            await db.SaveChangesAsync();
         }
         catch (System.Exception ex)
         {
-            throw new Exception($"{ex.InnerException.Message}");
+            throw new Exception($"{ex.InnerException?.Message}");
         }
-        
+
         return Ok(emp);
 
     }
-    // crud
 
-    // список событий сотрудника по отпускам, отгулам и отсутствиям
+    /// <summary>
+    /// Увольнение сотрудника (не удаление)
+    /// </summary>
+    /// <param name="employeeDto"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    [HttpPut("dismiss")]
+    public async Task<ActionResult<Employee>> DismissEmployee(EmployeeDto employeeDto)
+    {
 
-    // сотрудники конкретного подразделения
-    // сортировка
-    // фильтрация
-    // группировка по типу
+        var isLearnEmp = await db.Events.AnyAsync(e => e.EmployeeId == employeeDto.Id && e.EventTypeId == 3);
+        if (isLearnEmp)
+        {
+            throw new Exception("У сотрудника есть обучения. Пусть учится!");
+        }
+
+        var employee = mapper.Map<Employee>(employeeDto);
+
+        var eventsEmp = await db.Events.Where(e => e.EmployeeId == employeeDto.Id && (e.EventTypeId == 2 || e.EventTypeId == 3)).ToListAsync();
+
+        try
+        {
+            // удалем записи о событиях отгулов и отпусков, но обучения оставляем (их не будет)
+            db.Events.RemoveRange(eventsEmp);
+
+            employee.DismissDate = DateTime.Now;
+            db.Employees.Update(employee);
+            await db.SaveChangesAsync();
+        }
+        catch (System.Exception ex)
+        {
+            throw new Exception($"{ex.InnerException?.Message}");
+        }
+
+        return Ok(employee);
+
+    }
 }

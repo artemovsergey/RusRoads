@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { DagreLayout, NgxGraphModule, Orientation } from '@swimlane/ngx-graph';
 import { CommonModule } from '@angular/common';
 import { SubdivisonsService } from '../../services/subdivisons.service';
@@ -11,7 +11,7 @@ import { catchError, of, tap } from 'rxjs';
   templateUrl: './subdivisions.component.html',
   styleUrl: './subdivisions.component.scss'
 })
-export class SubdivisionsComponent {
+export class SubdivisionsComponent implements OnInit {
 
   nodes: any[] = [];
   links: any[] = [];
@@ -19,12 +19,7 @@ export class SubdivisionsComponent {
 
   subdivisionService = inject(SubdivisonsService)
 
-  // data = [{id:"1", name:"p1", head_subdivision_id: null},
-  //   {id:"2", name:"p2", head_subdivision_id:"1"},
-  //   {id:"3", name:"p3", head_subdivision_id:"1"}
-  // ]
-
-  ngOnInit(): void {
+  ngOnInit() {
     this.subdivisionService.getll().subscribe( r => { this.prepareData(r) } )
     this.layout.settings.orientation = Orientation.TOP_TO_BOTTOM
   }
@@ -40,7 +35,7 @@ export class SubdivisionsComponent {
 
     // получаем связанных сотрудников по узлу
     this.subdivisionService.getEmployeesAll(node.id).pipe(
-      tap(r => {}),
+      tap(r => { console.log(r)}),
       tap(r => this.subdivisionService.employeesAll$.next(r)),
       catchError(error => {
         console.error('Error fetching employees:', error);

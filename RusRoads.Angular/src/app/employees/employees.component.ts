@@ -89,7 +89,6 @@ export class EmpoyeesComponent implements OnInit{
     });
   }
 
-
   deleteEmployee($event: Employee) {
     this.empService.delete($event).pipe(
       switchMap(() => this.subService.getEmployeesAll(this.currentSubId)),
