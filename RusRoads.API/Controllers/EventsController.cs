@@ -43,19 +43,26 @@ public class EventsController(RusRoadsContext db, IMapper mapper) : ControllerBa
         //     })
         //     .ToList();
 
-
-        IQueryable<Event> events;
-        events = db.Events.Where(e => e.EmployeeId == employeeId).OrderByDescending(e => e.BeginDate);
+        IEnumerable<Event> r = new List<Event>();
         
-        if (oldEvents) events = events.Where(e => e.BeginDate.Date < DateTime.Now.Date);
+        // все события
+        IQueryable<Event> events = db.Events.Where(e => e.EmployeeId == employeeId).OrderByDescending(e => e.BeginDate);
 
-        if (currentEvents) events = events.Where(e => e.BeginDate.Date <= DateTime.Now.Date && DateTime.Now.Date <= e.EndDate.Date);
+        // прошлые, текущие и будущие
 
-        if (futureEvents) events = events.Where(e => e.BeginDate.Date > DateTime.Now.Date);
+        IQueryable<Event> eventsOld = events.Where(e => e.BeginDate.Date < DateTime.Now.Date && e.EndDate.Date < DateTime.Now.Date);
+        IQueryable<Event> eventsCurrent = events.Where(e => e.BeginDate.Date <= DateTime.Now.Date && DateTime.Now.Date <= e.EndDate.Date);
+        IQueryable<Event> eventsFuture = events.Where(e => e.BeginDate.Date > DateTime.Now.Date);
 
-        await events.ToListAsync();
+        if(oldEvents && currentEvents && futureEvents) r = events.ToList();
+        if(oldEvents && currentEvents && !futureEvents) r = eventsOld.Union(eventsCurrent).ToList();
+        if(currentEvents && futureEvents && !oldEvents) r = eventsCurrent.Union(eventsFuture).ToList();
+        if(oldEvents && futureEvents && !currentEvents) r = eventsOld.Union(eventsFuture).ToList();
+        if(oldEvents && !currentEvents && !futureEvents) r = eventsOld.ToList();
+        if(currentEvents && !oldEvents && !futureEvents) r = eventsCurrent.ToList();
+        if(futureEvents && !currentEvents && !oldEvents) r = eventsFuture.ToList();
 
-        var eventsDto = mapper.Map<IEnumerable<Event>>(events);
+        var eventsDto = mapper.Map<IEnumerable<Event>>(r);
         return Ok(eventsDto);
 
     }
@@ -64,7 +71,8 @@ public class EventsController(RusRoadsContext db, IMapper mapper) : ControllerBa
     public async Task<ActionResult<EventDto>> CreateEvent(EventDto eventDto)
     {
 
-        if(eventDto.BeginDate > eventDto.EndDate){
+        if (eventDto.BeginDate > eventDto.EndDate)
+        {
             throw new Exception("Дата начала события должная быть равна или меньше дате окончания события");
         }
 
@@ -83,9 +91,10 @@ public class EventsController(RusRoadsContext db, IMapper mapper) : ControllerBa
             // проверка отпуска на пересечение с отгулом
             if (eventDto.EventTypeId == 1 && e.EventTypeId == 2)
             {
-               if(eventDto.BeginDate.Date >= e.BeginDate.Date && e.BeginDate.Date <= eventDto.EndDate.Date){
-                 throw new Exception($"В промежутке дат отпуска с {eventDto.BeginDate.ToShortDateString()} по {eventDto.EndDate.ToShortDateString()} есть дата отгула");
-               }
+                if (eventDto.BeginDate.Date >= e.BeginDate.Date && e.BeginDate.Date <= eventDto.EndDate.Date)
+                {
+                    throw new Exception($"В промежутке дат отпуска с {eventDto.BeginDate.ToShortDateString()} по {eventDto.EndDate.ToShortDateString()} есть дата отгула");
+                }
             }
 
             // проверка отгула на пересечение с обучением или отпуском
@@ -93,12 +102,15 @@ public class EventsController(RusRoadsContext db, IMapper mapper) : ControllerBa
             {
                 foreach (var w in db.WorkingCalendars.ToList())
                 {
-                    if(eventDto.BeginDate.Date == w.ExceptionDate.Date && !w.IsWorkingDay){
+                    if (eventDto.BeginDate.Date == w.ExceptionDate.Date && !w.IsWorkingDay)
+                    {
                         throw new Exception($"Отгул не может быть в выходной день {w.ExceptionDate.Date} по производственному календарю");
-                    };
+                    }
+                    ;
                 }
 
-                if(e.BeginDate.Date <= eventDto.BeginDate.Date && eventDto.BeginDate.Date <= e.EndDate.Date){
+                if (e.BeginDate.Date <= eventDto.BeginDate.Date && eventDto.BeginDate.Date <= e.EndDate.Date)
+                {
                     throw new Exception($"Отгул {eventDto.BeginDate.ToShortDateString()} не может пересекаться с обучением или отпуском c {e.BeginDate.ToShortDateString()} по {e.EndDate.Date.ToShortDateString()}");
                 }
             }
@@ -108,7 +120,7 @@ public class EventsController(RusRoadsContext db, IMapper mapper) : ControllerBa
                 // обучение отдельно мы не проверяем, так как проверили его вместе с отгулом
             }
         }
-        
+
         // проверить
 
         // •	отпуск и отгул не могут быть в одни даты (не могут пересекаться),

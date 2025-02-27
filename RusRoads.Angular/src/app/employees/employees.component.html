@@ -4,7 +4,7 @@
 </div> -->
 
 
-<div class="employees">
+<div *ngIf="employees.length != 0" class="employees">
         @for (e of employees; track $index) {
             <p> <app-employee [employee]="e"  (selectEmployee) = "editEmployee($event)"
                                               (deleteEmployee) = "deleteEmployee($event)"  /> </p>

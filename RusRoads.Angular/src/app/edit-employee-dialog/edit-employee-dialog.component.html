@@ -1,59 +1,102 @@
 <h2 mat-dialog-title> Редактирование сотрудника </h2>
 
 <mat-dialog-content>
-  <form [formGroup]="empForm">
-    <p>
-      <input placeholder="Фио" formControlName="fio" matInput required />
-    </p>
+  <div style="display: flex">
+    <form [formGroup]="empForm">
+      <p>
+        <input placeholder="Фио" formControlName="fio" matInput required />
+      </p>
+  
+      <p>
+        <input placeholder="Мобильный телефон" type="tel" formControlName="phone" matInput />
+      </p>
+  
+      <p>
+        <label> Подразделение </label>
+        <select formControlName="subdivision_id" required>
+          <option [ngValue]="null"> Нет подразделения </option>
+          <option *ngFor="let sub of subdivisions" [value]="sub.id">{{ sub.name }}</option>
+        </select>
+      </p>
+  
+      <p>
+        <input placeholder="Должность" formControlName="position" matInput required />
+      </p>
+  
+      <p>
+        <label> Руководитель </label>
+        <select formControlName="head_id">
+          <option [ngValue]="null"> Нет руководителя </option>
+          <option *ngFor="let e of data[0]" [value]="e.id">{{ e.fio }}</option>
+        </select>
+      </p>
+  
+      <p>
+        <label> Помощник </label>
+        <select formControlName="helper_id">
+          <option [ngValue]="null"> Нет помощника </option>
+          <option *ngFor="let e of data[0]" [value]="e.id">{{ e.fio }}</option>
+        </select>
+      </p>
+  
+      <p>
+        <input placeholder="День рождения" type="date" formControlName="birthday" matInput />
+      </p>
+  
+      <p>
+        <input placeholder="Рабочий телефон" type="tel" formControlName="job_phone" matInput required />
+      </p>
+  
+      <p>
+        <input placeholder="Электронная почта" formControlName="email" matInput required />
+      </p>
+  
+      <p>
+        <input placeholder="Кабинет" formControlName="cabinet" matInput required />
+      </p>
+    </form>
+    <ng-template #emptyBlock>
+      <h3> У сотрудника нет событий </h3>
+    </ng-template>
+    
+    <div  class="events">
 
-    <p>
-      <input placeholder="Мобильный телефон" type="tel" formControlName="phone" matInput />
-    </p>
+      <h3> События сотрудника </h3>
 
-    <p>
-      <label> Подразделение </label>
-      <select formControlName="subdivision_id" required>
-        <option [ngValue]="null"> Нет подразделения </option>
-        <option *ngFor="let sub of subdivisions" [value]="sub.id">{{ sub.name }}</option>
-      </select>
-    </p>
+        <mat-checkbox [(ngModel)]="is_old" (change)="filterEvents()">Прошедшие</mat-checkbox>
+        <mat-checkbox [(ngModel)]="is_current" (change)="filterEvents()">Текущие</mat-checkbox>
+        <mat-checkbox [(ngModel)]="is_future" (change)="filterEvents()">Будущие</mat-checkbox>
 
-    <p>
-      <input placeholder="Должность" formControlName="position" matInput required />
-    </p>
+        <h3> Отпуска </h3>
+        <div *ngFor="let e of events">
+            <div *ngIf="e.event_type_id == 1" (click)="removeEvent(e)">
+             {{ e.begin_date | date}}: {{e.description}} <mat-icon> remove </mat-icon>
+            </div>
+        </div>
 
-    <p>
-      <label> Руководитель </label>
-      <select formControlName="head_id">
-        <option [ngValue]="null"> Нет руководителя </option>
-        <option *ngFor="let e of data[0]" [value]="e.id">{{ e.fio }}</option>
-      </select>
-    </p>
+        <h3> Отгулы </h3>
+        <div *ngFor="let e of events">
+            <div *ngIf="e.event_type_id == 2" (click)="removeEvent(e)">
+             {{ e.begin_date | date}}: {{e.description}} <mat-icon> remove </mat-icon>
+            </div>
+        </div>
 
-    <p>
-      <label> Помощник </label>
-      <select formControlName="helper_id">
-        <option [ngValue]="null"> Нет помощника </option>
-        <option *ngFor="let e of data[0]" [value]="e.id">{{ e.fio }}</option>
-      </select>
-    </p>
+        <h3> Обучения </h3>
+        <div *ngFor="let e of events">
+            <div *ngIf="e.event_type_id == 3" (click)="removeEvent(e)">
+             {{ e.begin_date | date}}: {{e.description}} <mat-icon> remove </mat-icon>
+            </div>
+        </div>
 
-    <p>
-      <input placeholder="День рождения" type="date" formControlName="birthday" matInput />
-    </p>
+        <button (click)="addEvent(); $event.stopPropagation()"> 
+          <mat-icon>add</mat-icon>
+          <mat-icon> event  </mat-icon>
+        </button>
 
-    <p>
-      <input placeholder="Рабочий телефон" type="tel" formControlName="job_phone" matInput required />
-    </p>
 
-    <p>
-      <input placeholder="Электронная почта" formControlName="email" matInput required />
-    </p>
+    </div>
+  </div>
 
-    <p>
-      <input placeholder="Кабинет" formControlName="cabinet" matInput required />
-    </p>
-  </form>
 </mat-dialog-content>
 
 <mat-dialog-actions>

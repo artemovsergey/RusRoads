@@ -5,15 +5,22 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { SubdivisonsService } from '../../services/subdivisons.service';
+import { EventsService } from '../../services/events.service';
+import { map, tap } from 'rxjs';
+import { Event } from '../../models/event';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-edit-employee-dialog',
-  imports: [ReactiveFormsModule, MatDialogModule, CommonModule, FormsModule, MatIconModule],
+  imports: [MatCheckboxModule, ReactiveFormsModule, MatDialogModule, CommonModule, FormsModule, MatIconModule, MatButtonToggleModule],
   templateUrl: './edit-employee-dialog.component.html',
   styleUrl: './edit-employee-dialog.component.scss'
 })
 export class EditEmployeeDialogComponent implements OnInit {
 
+
+  eventService = inject(EventsService)
   subService = inject(SubdivisonsService)
   subdivisions: any[] = [] 
   dialogRef = inject(MatDialogRef<EditEmployeeDialogComponent>)
@@ -22,8 +29,19 @@ export class EditEmployeeDialogComponent implements OnInit {
   isEdit: boolean = false;
   empForm!: FormGroup;
   private fb: FormBuilder =new FormBuilder()
+  events: Event[] = []
+
+  is_old: boolean = false;
+  is_current: boolean = true;
+  is_future: boolean = true;
   
   ngOnInit(): void {
+
+    this.eventService.getEventsByEmp(this.currentEmp.id,this.is_old,this.is_current,this.is_future).pipe(
+      tap((r) => console.log(r)),
+      map((r) => this.events = r)
+    ).subscribe()
+
     this.subService.getll().subscribe(r => this.subdivisions = r)
 
     this.empForm = this.fb.group({
@@ -44,6 +62,22 @@ export class EditEmployeeDialogComponent implements OnInit {
     //   this.currentEmp = { ...this.currentEmp, ...values };
     // });
 
+  }
+
+  filterEvents() {
+    console.log(this.is_old, this.is_current, this.is_future)
+    this.eventService.getEventsByEmp(this.currentEmp.id,this.is_old,this.is_current,this.is_future).pipe(
+      tap((r) => console.log(r)),
+      map((r) => this.events = r)
+    ).subscribe()
+  }
+
+  addEvent() {
+    console.log("Открытые окна добавления события");
+  }
+
+  removeEvent($event: Event) {
+    console.log("Event", $event)
   }
 
   cancel() {

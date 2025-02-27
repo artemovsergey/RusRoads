@@ -26,4 +26,10 @@ export class EmployeesService {
     return this.http.delete<Employee>(`${environment.api}/Employees/${employeeDto.id}`)
   }
 
+  dismiss(employeeDto: Employee){
+    return this.http.put<Employee>(`${environment.api}/Employees/dismiss`, employeeDto)
+  }
+
+
+
 }

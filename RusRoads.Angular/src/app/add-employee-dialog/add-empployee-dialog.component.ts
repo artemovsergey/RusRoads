@@ -5,6 +5,9 @@ import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/
 import { Employee } from '../../models/employee';
 import { SubdivisonsService } from '../../services/subdivisons.service';
 import { Subdivision } from '../../models/subdivision';
+import { EventsService } from '../../services/events.service';
+import { map, tap } from 'rxjs';
+import { Event } from '../../models/event';
 
 @Component({
   selector: 'app-addemp',
@@ -15,11 +18,13 @@ import { Subdivision } from '../../models/subdivision';
 })
 export class AddEmployeeDialogComponent implements OnInit {
 
+  eventService = inject(EventsService)
   subService = inject(SubdivisonsService)
   dialogRef = inject(MatDialogRef<AddEmployeeDialogComponent>)
   data = inject<any[]>(MAT_DIALOG_DATA)
 
   subdivisions: Subdivision[] = []
+  events: Event[] = []
 
   currentEmp: Employee = {
     id: 0,

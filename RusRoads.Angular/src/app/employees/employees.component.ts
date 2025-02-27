@@ -9,10 +9,11 @@ import { AddEmployeeDialogComponent } from '../add-employee-dialog/add-empployee
 import { Employee } from '../../models/employee';
 import { EmployeesService } from '../../services/employees.service';
 import { catchError, of, switchMap } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-empoyees',
-  imports: [EmployeeComponent, MatIconModule],
+  imports: [EmployeeComponent, MatIconModule, CommonModule],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.scss'
 })
@@ -41,7 +42,7 @@ export class EmpoyeesComponent implements OnInit{
   addEmp() {
     const dialogRef = this.dialog.open(
       AddEmployeeDialogComponent,
-      {data: [this.currentEmployees, this.currentSubId], autoFocus: true, width: '50%'}  // конфигурация
+      {data: [this.currentEmployees, this.currentSubId], autoFocus: true, height: 'auto', width: '50%',maxWidth:'100vw'}
     );
 
     dialogRef.afterClosed().subscribe(result => {
@@ -68,7 +69,7 @@ export class EmpoyeesComponent implements OnInit{
 
     const dialogRef = this.dialog.open(
       EditEmployeeDialogComponent,
-      {data: [this.currentEmployees, $event], autoFocus: true, width: '50%'}  // конфигурация
+      {data: [this.currentEmployees, $event], autoFocus: true,  height: '85%', width: '85%', maxWidth:'100vw'}
     );
 
 
