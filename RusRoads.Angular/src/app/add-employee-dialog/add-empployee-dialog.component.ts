@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog'
 import { Employee } from '../../models/employee';
 import { SubdivisonsService } from '../../services/subdivisons.service';
 import { Subdivision } from '../../models/subdivision';
 import { EventsService } from '../../services/events.service';
-import { map, tap } from 'rxjs';
 import { Event } from '../../models/event';
 
 @Component({
@@ -42,7 +41,8 @@ export class AddEmployeeDialogComponent implements OnInit {
     position: '',
     cabinet: '',
     job_phone: '',
-    email: ''
+    email: '',
+    dismiss_date: null
   }
 
   ngOnInit() {

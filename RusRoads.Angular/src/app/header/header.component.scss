@@ -1,8 +1,15 @@
 .main{
+    display: flex;
     margin: 1rem;
-    border: 1px solid green;
+    padding: 1rem;
+    border: 1px solid;
+    border-radius: 30px;
+    background-color: #78B24B;
+    text-decoration-color: white;
+    color: white;
+    align-items: center;
 }
 
-p{
+strong{
     padding-left: 10px;
 }

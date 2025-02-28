@@ -1,8 +1,8 @@
 <h2 mat-dialog-title> Редактирование сотрудника </h2>
 
 <mat-dialog-content>
-  <div style="display: flex">
-    <form [formGroup]="empForm">
+  <div style="display: flex" >
+    <form [formGroup]="empForm" class="editForm">
       <p>
         <input placeholder="Фио" formControlName="fio" matInput required />
       </p>
@@ -11,8 +11,8 @@
         <input placeholder="Мобильный телефон" type="tel" formControlName="phone" matInput />
       </p>
   
+      <label> Подразделение </label>
       <p>
-        <label> Подразделение </label>
         <select formControlName="subdivision_id" required>
           <option [ngValue]="null"> Нет подразделения </option>
           <option *ngFor="let sub of subdivisions" [value]="sub.id">{{ sub.name }}</option>
@@ -59,7 +59,7 @@
       <h3> У сотрудника нет событий </h3>
     </ng-template>
     
-    <div  class="events">
+    <div class="events">
 
       <h3> События сотрудника </h3>
 
@@ -88,13 +88,51 @@
             </div>
         </div>
 
-        <button (click)="addEvent(); $event.stopPropagation()"> 
+        <button matTooltip="Создать новое событие" (click)="addEvent(); $event.stopPropagation()"> 
           <mat-icon>add</mat-icon>
           <mat-icon> event  </mat-icon>
         </button>
 
 
     </div>
+
+    <div *ngIf="isVisibleAddFormEvent" class="addEventForm">
+        <h3> Добавление события </h3>
+        <form #eventForm = "ngForm">
+            <label for="event_type_id">Тип события: </label>
+            <p>
+              <select [(ngModel)] = "currentEvent.event_type_id" name="event_type_id" required >
+                <option value="null">Событие не выбрано</option>
+                <option value="1">Отпуск</option>
+                <option value="2">Отгул</option>
+                <option value="3">Обучение</option>
+             </select>
+            </p>
+
+            <p>
+              <input type="text" [(ngModel)] = "currentEvent.description" placeholder="Описание" name="description">
+            </p>
+
+            <label for="begindate"> Дата начала: </label>
+            <p>
+              <input type="date" [(ngModel)] = "currentEvent.begin_date" name="begindate" required>
+            </p>
+
+            <label for="enddate"> Дата конца: </label>
+            <p>
+              <input type="date" [(ngModel)] = "currentEvent.end_date" name="enddate" required>
+            </p>
+
+            <p>
+              <button
+                  (click) = "createEvent()"
+                
+                  [disabled]="eventForm.invalid">Создать</button>
+            </p>
+
+        </form>
+    </div>
+
   </div>
 
 </mat-dialog-content>

@@ -8,7 +8,7 @@ import { EditEmployeeDialogComponent } from '../edit-employee-dialog/edit-employ
 import { AddEmployeeDialogComponent } from '../add-employee-dialog/add-empployee-dialog.component';
 import { Employee } from '../../models/employee';
 import { EmployeesService } from '../../services/employees.service';
-import { catchError, of, switchMap } from 'rxjs';
+import { catchError, of, switchMap, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -69,7 +69,7 @@ export class EmpoyeesComponent implements OnInit{
 
     const dialogRef = this.dialog.open(
       EditEmployeeDialogComponent,
-      {data: [this.currentEmployees, $event], autoFocus: true,  height: '85%', width: '85%', maxWidth:'100vw'}
+      {data: [this.currentEmployees, $event], autoFocus: true,  height: 'auto', width: '85%', maxWidth:'100vw'}
     );
 
 
@@ -97,6 +97,15 @@ export class EmpoyeesComponent implements OnInit{
         console.error('Ошибка удаления сотрудника:', error);
         return of([]); // Возвращаем пустой массив или другое значение по умолчанию
       })
+    ).subscribe(employees => {
+      this.subService.employeesAll$.next(employees);
+    });
+  }
+
+  dismissEmployee($event: Employee){
+    this.empService.dismiss($event).pipe(
+      tap((r) => console.log("Уволен сотрудник: ", $event.fio) ),
+      switchMap(() => this.subService.getEmployeesAll(this.currentSubId))
     ).subscribe(employees => {
       this.subService.employeesAll$.next(employees);
     });

@@ -25,7 +25,7 @@ export class EventsService {
   }
 
   deleteEvent(eventId: number){
-    return this.http.delete<Event>(`${environment.api}/Events`)
+    return this.http.delete<Event>(`${environment.api}/Events/${eventId}`)
   }
 
   createEvent(event: Event){

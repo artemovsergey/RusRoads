@@ -9,16 +9,18 @@ import { EventsService } from '../../services/events.service';
 import { map, tap } from 'rxjs';
 import { Event } from '../../models/event';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatButtonModule} from '@angular/material/button';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatTooltip} from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-edit-employee-dialog',
-  imports: [MatCheckboxModule, ReactiveFormsModule, MatDialogModule, CommonModule, FormsModule, MatIconModule, MatButtonToggleModule],
+  imports: [MatTooltip, MatCheckboxModule, ReactiveFormsModule, MatDialogModule, CommonModule, FormsModule, MatIconModule, MatButtonToggleModule, MatButtonModule],
   templateUrl: './edit-employee-dialog.component.html',
-  styleUrl: './edit-employee-dialog.component.scss'
+  styleUrl: './edit-employee-dialog.component.scss',
+  standalone: true
 })
 export class EditEmployeeDialogComponent implements OnInit {
-
 
   eventService = inject(EventsService)
   subService = inject(SubdivisonsService)
@@ -30,6 +32,15 @@ export class EditEmployeeDialogComponent implements OnInit {
   empForm!: FormGroup;
   private fb: FormBuilder =new FormBuilder()
   events: Event[] = []
+  isVisibleAddFormEvent = false
+
+  currentEvent: Event = {
+    id: 0,
+    event_type_id: null,
+    employee_id: this.currentEmp.id,
+    begin_date: null,
+    end_date: null
+  }
 
   is_old: boolean = false;
   is_current: boolean = true;
@@ -64,6 +75,15 @@ export class EditEmployeeDialogComponent implements OnInit {
 
   }
 
+  createEvent() {
+    console.log("Запрос к API на создание события!", this.currentEvent)
+
+    this.eventService.createEvent(this.currentEvent).pipe(
+      tap((r) => console.log("Результат: ", r)),
+      tap(() => this.filterEvents() )
+    ).subscribe()
+  }
+
   filterEvents() {
     console.log(this.is_old, this.is_current, this.is_future)
     this.eventService.getEventsByEmp(this.currentEmp.id,this.is_old,this.is_current,this.is_future).pipe(
@@ -74,10 +94,18 @@ export class EditEmployeeDialogComponent implements OnInit {
 
   addEvent() {
     console.log("Открытые окна добавления события");
+    this.isVisibleAddFormEvent = !this.isVisibleAddFormEvent
   }
 
   removeEvent($event: Event) {
     console.log("Event", $event)
+
+    this.eventService.deleteEvent($event.id).pipe(
+      tap(() => this.filterEvents()),
+      tap(() => console.log("Событие удалено"))
+    ).subscribe()
+
+
   }
 
   cancel() {

@@ -27,28 +27,6 @@ public class EmployeeDto
     public string Phone { get; set; }
     public string Cabinet { get; set; }
     public string Email { get; set; }
+    public DateTime? DismissDate { get; set; } = null;
 
-
-
-
-
-}
-
-
-public class EmployeeTest
-{
-    public int Id { get; set; }
-    public string Fio { get; set; } = string.Empty;
-
-    public int SubdivisionId { get; set; }
-    // public SubdivisionDto? Subdivision { get; set; }
-
-    public string Position { get; set; }
-    public int? HeadId { get; set; }
-    public int? HelperId { get; set; }
-    public DateTime Date { get; set; }
-    public string Info { get; set; }
-    public string Phone { get; set; }
-    public string Cabinet { get; set; }
-    public string Email { get; set; }
 }

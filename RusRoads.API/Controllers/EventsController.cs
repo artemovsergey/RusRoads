@@ -76,7 +76,6 @@ public class EventsController(RusRoadsContext db, IMapper mapper) : ControllerBa
             throw new Exception("Дата начала события должная быть равна или меньше дате окончания события");
         }
 
-
         // eventDto.EmployeeId найти пользователя
         var currentEmp = db.Employees.Find(eventDto.EmployeeId);
         if (currentEmp == null) throw new Exception($"Нет сотрудника с id = {eventDto.EmployeeId}");
@@ -106,7 +105,12 @@ public class EventsController(RusRoadsContext db, IMapper mapper) : ControllerBa
                     {
                         throw new Exception($"Отгул не может быть в выходной день {w.ExceptionDate.Date} по производственному календарю");
                     }
-                    ;
+
+                    if (eventDto.BeginDate.Date.DayOfWeek == DayOfWeek.Saturday || eventDto.BeginDate.Date.DayOfWeek == DayOfWeek.Sunday)
+                    {
+                        throw new Exception($"Отгул не может быть в субботу или воскресенье");
+                    }
+
                 }
 
                 if (e.BeginDate.Date <= eventDto.BeginDate.Date && eventDto.BeginDate.Date <= e.EndDate.Date)
@@ -143,11 +147,12 @@ public class EventsController(RusRoadsContext db, IMapper mapper) : ControllerBa
         return Created("", eventDto);
     }
 
-    [HttpDelete]
-    public async Task<ActionResult<EventDto>> DeleteEvent(EventDto eventDto)
+    [HttpDelete("{eventId}")]
+    public async Task<ActionResult<Event>> DeleteEvent(int eventId)
     {
 
-        var eventEntity = mapper.Map<Event>(eventDto);
+        var eventEntity = db.Events.Find(eventId);
+        if(eventEntity == null) throw new Exception($"Нет события с id = {eventId}");
 
         try
         {
@@ -160,6 +165,6 @@ public class EventsController(RusRoadsContext db, IMapper mapper) : ControllerBa
         }
 
 
-        return Ok(eventDto);
+        return Ok(eventEntity);
     }
 }

@@ -16,4 +16,5 @@ export interface Employee {
     job_phone: string,
     email: string,
     cabinet: string
+    dismiss_date: Date | null
 }

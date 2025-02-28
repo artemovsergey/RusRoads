@@ -1,4 +1,4 @@
-<div class="emp" (click) = "getEmp(employee)">
+<div *ngIf="checkDateDismissEmployee(employee)" class="emp"  [class.employee-dismiss]="employee.dismiss_date" (click) = "getEmp(employee)">
     <p> Сотрудник: {{employee.fio}} </p>
     <p> Подразделение: {{employee.subdivision.name}} </p>
     <p> Должность: {{employee.position}} </p>
@@ -6,9 +6,9 @@
     <p> Кабинет: {{employee.cabinet}} </p>
     <p> Email: {{employee.email}} </p>
 
-    <button (click)="deleteEmp(employee); $event.stopPropagation()">
+    <button matTooltip="Уволить сотрудника" *ngIf="!employee.dismiss_date" (click)="dismissEmployee(employee); $event.stopPropagation()">
         <div>
-            <mat-icon>person</mat-icon>
+            <mat-icon>person</mat-icon> 
         </div>
     </button>
 </div>

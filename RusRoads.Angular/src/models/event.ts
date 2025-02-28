@@ -1,10 +1,10 @@
 export interface Event{
 
     id: number,
-    event_type_id: number,
+    event_type_id: number | null,
     employee_id: number
-    begin_date: Date,
-    end_date: Date,
+    begin_date: Date | null,
+    end_date: Date | null,
     description?: string
 
 }
