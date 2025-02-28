@@ -4,28 +4,28 @@
   <div style="display: flex" >
     <form [formGroup]="empForm" class="editForm">
       <p>
-        <input placeholder="Фио" formControlName="fio" matInput required />
-      </p>
+        <input placeholder="Фио"  formControlName="fio" matInput required />
+      </p>  
   
       <p>
-        <input placeholder="Мобильный телефон" type="tel" formControlName="phone" matInput />
+        <input placeholder="Мобильный телефон" [disabled]="isEdit" type="tel" formControlName="phone" matInput />
       </p>
   
       <label> Подразделение </label>
       <p>
-        <select formControlName="subdivision_id" required>
+        <select [disabled]="isEdit" formControlName="subdivision_id" required>
           <option [ngValue]="null"> Нет подразделения </option>
           <option *ngFor="let sub of subdivisions" [value]="sub.id">{{ sub.name }}</option>
         </select>
       </p>
   
       <p>
-        <input placeholder="Должность" formControlName="position" matInput required />
+        <input placeholder="Должность"  formControlName="position" matInput required />
       </p>
   
       <p>
         <label> Руководитель </label>
-        <select formControlName="head_id">
+        <select  [disabled]="isEdit" formControlName="head_id">
           <option [ngValue]="null"> Нет руководителя </option>
           <option *ngFor="let e of data[0]" [value]="e.id">{{ e.fio }}</option>
         </select>
@@ -33,27 +33,35 @@
   
       <p>
         <label> Помощник </label>
-        <select formControlName="helper_id">
+        <select  [disabled]="isEdit" formControlName="helper_id">
           <option [ngValue]="null"> Нет помощника </option>
           <option *ngFor="let e of data[0]" [value]="e.id">{{ e.fio }}</option>
         </select>
       </p>
   
       <p>
-        <input placeholder="День рождения" type="date" formControlName="birthday" matInput />
+        <input placeholder="День рождения" [disabled]="isEdit" type="date" formControlName="birthday" matInput />
       </p>
   
       <p>
-        <input placeholder="Рабочий телефон" type="tel" formControlName="job_phone" matInput required />
+        <input placeholder="Рабочий телефон" [disabled]="isEdit" type="tel" formControlName="job_phone" matInput required />
       </p>
   
       <p>
-        <input placeholder="Электронная почта" formControlName="email" matInput required />
+        <input placeholder="Электронная почта" [disabled]="isEdit" formControlName="email" matInput required />
       </p>
   
       <p>
-        <input placeholder="Кабинет" formControlName="cabinet" matInput required />
+        <input placeholder="Кабинет" [disabled]="isEdit" formControlName="cabinet" matInput required />
       </p>
+
+      <p>
+        <button (click)="toggleEdit()">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </p>
+
+
     </form>
     <ng-template #emptyBlock>
       <h3> У сотрудника нет событий </h3>

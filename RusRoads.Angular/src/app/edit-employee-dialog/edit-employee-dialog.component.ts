@@ -22,13 +22,14 @@ import {MatTooltip} from '@angular/material/tooltip';
 })
 export class EditEmployeeDialogComponent implements OnInit {
 
+
   eventService = inject(EventsService)
   subService = inject(SubdivisonsService)
   subdivisions: any[] = [] 
   dialogRef = inject(MatDialogRef<EditEmployeeDialogComponent>)
   data = inject<any[]>(MAT_DIALOG_DATA)
   currentEmp: Employee = this.data[1]
-  isEdit: boolean = false;
+  isEdit: boolean = true;
   empForm!: FormGroup;
   private fb: FormBuilder =new FormBuilder()
   events: Event[] = []
@@ -45,8 +46,15 @@ export class EditEmployeeDialogComponent implements OnInit {
   is_old: boolean = false;
   is_current: boolean = true;
   is_future: boolean = true;
+
+
+  toggleEdit() {
+   this.empForm.enable()
+  }
   
   ngOnInit(): void {
+
+    
 
     this.eventService.getEventsByEmp(this.currentEmp.id,this.is_old,this.is_current,this.is_future).pipe(
       tap((r) => console.log(r)),
@@ -56,9 +64,9 @@ export class EditEmployeeDialogComponent implements OnInit {
     this.subService.getll().subscribe(r => this.subdivisions = r)
 
     this.empForm = this.fb.group({
-      fio: [this.currentEmp.fio, [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
-      phone: [this.currentEmp.phone, [Validators.pattern(/^[0-9+\-() #]{1,20}$/)]],
-      subdivision_id: [this.currentEmp.subdivision_id, Validators.required],
+      fio: [ {value:this.currentEmp.fio, disabled: this.isEdit}, [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+      phone: [{value: this.currentEmp.phone, disabled: this.isEdit}, [Validators.pattern(/^[0-9+\-() #]{1,20}$/)]],
+      subdivision_id: [{value:this.currentEmp.subdivision_id, disabled: this.isEdit}, Validators.required],
       position: [this.currentEmp.position, Validators.required],
       head_id: [this.currentEmp.head_id],
       helper_id: [this.currentEmp.helper_id],
@@ -72,6 +80,8 @@ export class EditEmployeeDialogComponent implements OnInit {
     // this.empForm.valueChanges.subscribe((values) => {
     //   this.currentEmp = { ...this.currentEmp, ...values };
     // });
+
+    this.empForm.disable()
 
   }
 

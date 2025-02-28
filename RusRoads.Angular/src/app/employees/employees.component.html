@@ -4,13 +4,17 @@
 </div> -->
 
 
-<div *ngIf="employees.length != 0" class="employees">
+<div class="employees">
+
+    <div *ngIf="employees.length != 0">
         @for (e of employees; track $index) {
             <p> <app-employee [employee]="e"  (selectEmployee) = "editEmployee($event)"
                                               (deleteEmployee) = "dismissEmployee($event)"  /> </p>
         }
+    </div>
 
-        <button (click)="addEmp()"> 
-            <mat-icon>add</mat-icon>
-        </button>
+    <button (click)="addEmp()"> 
+        <mat-icon>add</mat-icon>
+    </button>
+    
 </div>
