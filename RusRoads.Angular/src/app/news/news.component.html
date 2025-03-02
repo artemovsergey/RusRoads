@@ -1,1 +1,50 @@
-<p>news works!</p>
+
+<div>
+
+    <div class="employees-list">
+        <strong>Сотрудники</strong>
+        @for (e of employees; track $index) {
+            <app-employee [employee]="e"/>
+        }
+
+    </div>
+
+    <div class="messuares">
+
+        <div>
+            <div class="calendar">
+                <strong>Календарь событий</strong>
+                <app-calendar/>
+            </div>
+    
+            <div class="messuares-list ">
+                <strong>События</strong>
+                <app-messuares/>
+            </div>
+        </div>
+
+        <div class="news">
+            <strong>Новости</strong>
+
+            <div style="display: flex;flex-flow: wrap;">
+                @for (n of news; track $index) {
+                    <div style="border: 1px solid; margin: 1rem; padding: 1rem; width:200px;">
+                        <a href="{{n.link}}">{{n.title}}</a>
+                        <p>
+                           <img height="200" width="200" src="{{n.url}}"/>
+                        </p>
+                    </div>
+                }
+            </div>
+            
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+

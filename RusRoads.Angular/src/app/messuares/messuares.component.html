@@ -1,3 +1,19 @@
 <div>
-    <button (click)="downloadIcsFile()"> Событие</button>
+
+    @for (m of messuares; track $index) {
+        <div style="border: 1px solid; margin: 1rem; padding: 1rem; background-color: #78B24B;">
+            <p>
+                {{m.id}}
+            </p>
+            <p>
+                {{m.title}}
+            </p>
+            <button (click)="downloadIcsFile(m.title)"> 
+                <mat-icon>event</mat-icon>
+            </button>
+        </div>
+    }
+
+
+   
 </div>

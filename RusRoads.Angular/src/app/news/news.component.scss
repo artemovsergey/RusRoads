@@ -1,0 +1,97 @@
+.employees-list{
+  display: flex;
+  overflow: scroll;
+  margin: 1rem;
+  padding: 1rem;
+  border: 1px solid;
+  border-radius: 30px;
+}
+
+.news{
+  margin: 1rem;
+  padding: 1rem;
+  border: 1px solid;
+  border-radius: 30px;
+}
+
+
+.messuares{
+  display: flex;
+
+  margin: 1rem;
+  padding: 1rem;
+  border: 1px solid;
+  border-radius: 30px;
+}
+
+
+.calendar{
+    width: 300px;
+    margin: 1rem;
+    padding: 1rem;
+    border: 1px solid;
+    border-radius: 30px;
+}
+
+.messuares-list{
+  margin: 1rem;
+  padding: 1rem;
+  border: 1px solid;
+  border-radius: 30px;
+  width: auto;
+;}
+
+.highlight-date{
+    span{
+      color: red;
+    }
+  }
+  
+  .special-date4 {
+    background-color:#FC4343;
+    border-radius: 30px;
+    cursor: progress;
+  }
+  
+  .special-date2 {
+    background-color:#89FC43 ;
+    border-radius: 30px;
+    cursor: progress;
+  }
+  
+  .special-date {
+    background-color:#F8FC43;
+    border-radius: 30px;
+    cursor: progress; 
+  }
+  
+  
+  /* Стиль для ячейки с изображением */
+  .image-date {
+    visibility: hidden; /* Скрываем текст даты */
+    position: relative;
+  }
+  
+  .image-date .mat-calendar-body-cell-content::after {
+    content: '\01F382';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 24px; /* Размер изображения */
+    height: 24px;
+    visibility: visible; /* Показываем изображение */
+  }
+  
+  
+  /* Стиль для заголовка календаря */
+  .mat-calendar-header {
+    background-color: #78B24B; /* Зелёный цвет фона */
+    padding: 10px; /* Отступы */
+    margin: 5px;
+    border-radius: 4px; /* Скругление углов */
+    span{
+      width: 150px;
+    }
+  }
+  

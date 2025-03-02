@@ -1,14 +1,25 @@
 <div *ngIf="checkDateDismissEmployee(employee)" class="emp"  [class.employee-dismiss]="employee.dismiss_date" (click) = "getEmp(employee)">
     <p> Сотрудник: {{employee.fio}} </p>
-    <p> Подразделение: {{employee.subdivision.name}} </p>
+    <!-- <p> Подразделение: {{employee.subdivision.name}} </p> -->
     <p> Должность: {{employee.position}} </p>
     <p> Телефон: {{employee.phone}} </p>
     <p> Кабинет: {{employee.cabinet}} </p>
     <p> Email: {{employee.email}} </p>
+    <p> 
+        <button matTooltip="Показать qrcode" (click)="getVCardData(employee)">
+             <mat-icon>save</mat-icon>
+        </button>
+    </p>
 
-    <button matTooltip="Уволить сотрудника" *ngIf="!employee.dismiss_date" (click)="dismissEmployee(employee); $event.stopPropagation()">
-        <div>
-            <mat-icon>person</mat-icon> 
-        </div>
-    </button>
+    <div *ngIf="isQrCodeShow">
+        <qrcode [qrdata]="getVCardData(employee)" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+    </div>
+    
+
 </div>
+
+<!-- <button matTooltip="Уволить сотрудника" *ngIf="!employee.dismiss_date" (click)="dismissEmployee(employee); $event.stopPropagation()">
+    <div>
+        <mat-icon>person</mat-icon> 
+    </div>
+</button> -->

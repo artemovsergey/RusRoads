@@ -11,7 +11,7 @@ export class EmployeesService {
   http = inject(HttpClient)
 
   getAll(){
-    this.http.get<Employee[]>(`${environment.api}/Employees}`)
+    return this.http.get<Employee[]>(`${environment.api}/Employees`)
   }
 
   create(employeeDto: Employee){

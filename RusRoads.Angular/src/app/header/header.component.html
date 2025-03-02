@@ -1,8 +1,6 @@
-<div class="main">
-   <img src="Logo.png" width="80" height="80"/>
-   <button >test</button>   
-   <strong> Структура организации </strong>
-   <mat-calendar matTooltip="123" [dateClass]="dateClass" (selectedChange)="onDateSelected($event)">
-   </mat-calendar>
+<div class="header">
+   <img src="Logo.png" width="80" height="80" [routerLink]="['/']"  />
+   <strong [routerLink]="['/']"> Структура организации </strong>
+   <strong [routerLink]="['/news']"> Новости </strong>
 </div>
 

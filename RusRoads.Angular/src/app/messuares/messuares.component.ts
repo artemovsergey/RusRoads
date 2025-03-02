@@ -1,15 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-messuares',
-  imports: [],
+  imports: [MatIconModule],
   templateUrl: './messuares.component.html',
   styleUrl: './messuares.component.scss'
 })
-export class MessuaresComponent {
+export class MessuaresComponent implements OnInit {
+  
+  messuares: any[] = [{id:1, title:"messuare1"},{id:2, title:"messuare2"},{id:3, title:"messuare3"}]
+
+  ngOnInit(): void {
+    
+  }
 
 
-  downloadIcsFile() { 
+  async downloadIcsFile(name: string) {
     const icsContent = `
         BEGIN:VCALENDAR
         VERSION:2.0
@@ -19,22 +26,41 @@ export class MessuaresComponent {
         DTSTAMP:20231014T120000Z
         DTSTART:20231015T100000Z
         DTEND:20231015T120000Z
-        SUMMARY:My Event
+        SUMMARY:${name}
         DESCRIPTION:This is a test event
         END:VEVENT
         END:VCALENDAR
     `;
 
     const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-    const url = window.URL.createObjectURL(blob);
 
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'event.ics';
-    link.click();
+    try {
+        if ('showSaveFilePicker' in window) {
+            // Используем File System Access API, если доступен
+            const handle = await (window as any).showSaveFilePicker({
+                suggestedName: 'event.ics',
+                types: [{
+                    description: 'iCalendar Files',
+                    accept: { 'text/calendar': ['.ics'] },
+                }],
+            });
 
-    window.URL.revokeObjectURL(url);
-  }
+            const writable = await handle.createWritable();
+            await writable.write(blob);
+            await writable.close();
+        } else {
+            // Fallback для старых браузеров
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'event.ics';
+            link.click();
+            window.URL.revokeObjectURL(url);
+        }
+    } catch (err) {
+        console.error('Error saving file:', err);
+    }
+}
 
   generateVcard(): string {
     return `
@@ -54,6 +80,6 @@ PRIORITY:0
 END:VEVENT
 END:VCALENDAR
 
-    `.trim(); // Убираем лишние пробелы
+    `.trim();
   }
 }

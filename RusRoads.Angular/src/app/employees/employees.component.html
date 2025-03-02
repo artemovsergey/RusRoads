@@ -3,9 +3,7 @@
     <qrcode [qrdata]="generateVcard()" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
 </div> -->
 
-
-<div class="employees">
-
+<div>
     <div *ngIf="employees.length != 0">
         @for (e of employees; track $index) {
             <p> <app-employee [employee]="e"  (selectEmployee) = "editEmployee($event)"

@@ -2,20 +2,39 @@ import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output
 import { Employee } from '../../models/employee';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { MatTooltip } from '@angular/material/tooltip';
+import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { map, tap } from 'rxjs';
+import { QRCodeComponent } from 'angularx-qrcode';
 
 @Component({
   selector: 'app-employee',
-  imports: [CommonModule, MatIconModule, MatTooltip],
+  imports: [CommonModule, MatIconModule, QRCodeComponent, MatTooltipModule],
   templateUrl: './employee.component.html',
   styleUrl: './employee.component.scss',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class EmployeeComponent {
+
+  getVCardData(employee: Employee): string {
+
+    this.isQrCodeShow = true;
+
+    return `BEGIN:VCARD
+VERSION:3.0
+FN:${employee.fio}
+ORG:${employee.subdivision_id}
+TITLE:${employee.position}
+TEL:${employee.phone}
+EMAIL:${employee.email}
+END:VCARD`;
+
+
+  }
+
+  isQrCodeShow: boolean = false;
 
   dialog = inject(MatDialog)
 
