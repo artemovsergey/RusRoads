@@ -1,0 +1,14 @@
+<div class="custom-calendar-header">
+
+    <strong (click)="previousClicked()">
+      <mat-icon>chevron_left</mat-icon>
+    </strong>
+
+    <span class="header-label">{{ periodLabel.split("г.")[0] | titlecase }}</span>
+
+
+    <strong (click)="nextClicked()">
+      <mat-icon>chevron_right</mat-icon>
+    </strong>
+
+  </div>

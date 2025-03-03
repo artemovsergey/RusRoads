@@ -5,10 +5,10 @@ export interface Employee {
     id: number,
     fio: string,
     phone: string,
-    birthday: Date,
+    birthday: Date | null,
 
     subdivision_id: number,
-    subdivision: Subdivision,
+    subdivision: Subdivision | null,
     
     position: string,
     head_id: number | null,

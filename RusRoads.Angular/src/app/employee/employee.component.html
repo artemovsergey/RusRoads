@@ -5,6 +5,7 @@
     <p> Телефон: {{employee.phone}} </p>
     <p> Кабинет: {{employee.cabinet}} </p>
     <p> Email: {{employee.email}} </p>
+    <p> Дата: {{employee.birthday | date : "dd MMMM" }} </p>
     <p> 
         <button matTooltip="Показать qrcode" (click)="getVCardData(employee)">
              <mat-icon>save</mat-icon>

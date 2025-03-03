@@ -1,14 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { HeaderComponent } from '../header/header.component';
+import { HeaderCalendarComponent } from '../header-calendar/header-calendar.component';
 
 @Component({
   selector: 'app-calendar',
   imports: [MatDatepickerModule],
+  standalone: true,
   templateUrl: './calendar.component.html',
-  styleUrl: './calendar.component.scss'
+  styleUrl: './calendar.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class CalendarComponent {
 
+  customHeader = HeaderCalendarComponent
 
   getTooltipText(date: Date): string {
     if (date.getDate() === 15) {
@@ -39,8 +44,9 @@ export class CalendarComponent {
 
   dateClass = (date: Date): string => {
     if (date.getDate() > 10 && date.getDate() < 15) {
+      console.log("10-15")
       return 'highlight-date'; // Подсветка для дат с 11 по 14
-    } else if (date.getDate() === 3) {
+    } else if (date.getDate() === 4) {
       return 'image-date'; // Иконка для 20 числа
     } else if (date.getDate() === 15) {
       return 'special-date4';

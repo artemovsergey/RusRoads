@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Employee } from '../../models/employee';
 import { MatIconModule } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { map, tap } from 'rxjs';
 import { QRCodeComponent } from 'angularx-qrcode';
+
+import localeRu from '@angular/common/locales/ru';
 
 @Component({
   selector: 'app-employee',
@@ -17,6 +19,10 @@ import { QRCodeComponent } from 'angularx-qrcode';
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class EmployeeComponent {
+
+  constructor(){
+    registerLocaleData(localeRu, 'ru');
+  }
 
   getVCardData(employee: Employee): string {
 

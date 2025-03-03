@@ -1,0 +1,17 @@
+.custom-calendar-header {
+    background-color: #78B24B;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+  }
+  
+  .header-label {
+    flex-grow: 1;
+    text-align: center;
+    font-weight: 500;
+  }
+
+button{
+    background-color: #78B24B ;
+}

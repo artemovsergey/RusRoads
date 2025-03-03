@@ -1,0 +1,56 @@
+.highlight-date{
+    span{
+      color: red;
+    }
+  }
+  
+    button.special-date4 {
+    background-color:#FC4343;
+    border-radius: 30px;
+    cursor: progress;
+  }
+  
+  button.special-date2 {
+    background-color:#89FC43 ;
+    border-radius: 30px;
+    cursor: progress;
+  }
+  
+  button.special-date {
+    background-color:#F8FC43;
+    border-radius: 30px;
+    cursor: progress; 
+  }
+
+
+   /* Стиль для ячейки с изображением */
+   .image-date {
+    visibility: hidden; /* Скрываем текст даты */
+    position: relative;
+  }
+  
+  .image-date .mat-calendar-body-cell-content::after {
+    content: '🎂'; //\01F382';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 24px; /* Размер изображения */
+    height: 24px;
+    visibility: visible; /* Показываем изображение */
+  }
+  
+  
+  // /* Стиль для заголовка календаря */
+  // .mat-calendar-header {
+  //   background-color: #78B24B; /* Зелёный цвет фона */
+  //   padding: 10px; /* Отступы */
+  //   margin: 5px;
+  // }
+
+  td.mat-calendar-body-label{
+    visibility: hidden;
+  }
+  
+  
+ 
