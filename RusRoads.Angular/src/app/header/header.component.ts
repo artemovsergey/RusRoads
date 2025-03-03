@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { MatCalendar, MatDatepickerModule } from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
+import { AppService } from '../app.service';
 
 
 @Component({
@@ -20,6 +21,20 @@ import { RouterModule } from '@angular/router';
   standalone: true
 })
 export class HeaderComponent {
+
+
+  appService = inject(AppService)
+
+  searchText = ''
+
+  searchComplex() {
+    this.appService.searchText$.next(this.searchText)
+  }
+
+  clearSearch() {
+    this.searchText = ''
+    this.searchComplex()
+  }
 
 }
 

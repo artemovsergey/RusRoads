@@ -1,6 +1,6 @@
 <div>
 
-    <div class="employees-list">
+    <div *ngIf="employees.length > 0;else employeeEmpty" class="employees-list">
         <strong>Сотрудники</strong>
         @for (e of employees; track $index) {
             <app-employee [employee]="e"/>
@@ -16,16 +16,17 @@
                 <app-calendar/>
             </div>
     
-            <div class="messuares-list ">
+            <div *ngIf="messuares.length > 0;else messuareEmpty" class="messuares-list">
                 <strong>События</strong>
-                <app-messuares/>
+                <app-messuares [messuares]="messuares"/>
             </div>
+
         </div>
 
         <div class="news">
             <strong>Новости</strong>
 
-            <div style="display: flex;flex-flow: wrap;">
+            <div *ngIf="news.length > 0;else newsEmpty" style="display: flex;flex-flow: wrap;">
                 @for (n of news; track $index) {
                     <div style="border: 1px solid; margin: 1rem; padding: 1rem; width:200px;">
                         <a href="{{n.link}}">{{n.title}}</a>
@@ -44,6 +45,26 @@
 
 </div>
 
+
+
+<ng-template #messuareEmpty>
+    <div class="messuares-list">
+        <strong> Нет подходящих событий </strong>
+    </div>
+</ng-template>
+
+
+<ng-template #newsEmpty>
+    <div class="news">
+        <strong> Нет подходящих новостей </strong>
+    </div>
+</ng-template>
+
+<ng-template  #employeeEmpty>
+    <div class="employees-list" style="overflow:hidden">
+        <strong> Нет подходящих сотрудников </strong>
+    </div>
+</ng-template>
 
 
 

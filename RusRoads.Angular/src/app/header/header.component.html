@@ -2,5 +2,14 @@
    <img src="Logo.png" width="80" height="80" [routerLink]="['/']"  />
    <strong [routerLink]="['/']"> Структура организации </strong>
    <strong [routerLink]="['/news']"> Новости </strong>
+
+   <div style="margin-left: 10px;">
+      <input type="search"
+             [(ngModel)] = "searchText"
+             (keyup)="searchComplex()"
+             (search)="clearSearch()"
+             placeholder="Поиск по событиям, новостям и сотрудникам"
+             style="width: 300px;" />
+   </div>
 </div>
 

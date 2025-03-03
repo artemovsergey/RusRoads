@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -9,7 +9,8 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class MessuaresComponent implements OnInit {
   
-  messuares: any[] = [{id:1, title:"messuare1"},{id:2, title:"messuare2"},{id:3, title:"messuare3"}]
+  @Input()
+  messuares: any[] = []
 
   ngOnInit(): void {
     

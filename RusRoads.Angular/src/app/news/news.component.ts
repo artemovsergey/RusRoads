@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -11,74 +11,56 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
 import { MessuaresComponent } from "../messuares/messuares.component";
-import { interval, switchMap, tap } from 'rxjs';
+import { filter, interval, map, switchMap, tap } from 'rxjs';
 import { ParseXmlService } from '../../services/parse-xml.service';
 import { CalendarComponent } from "../calendar/calendar.component";
 import { EmployeeComponent } from "../employee/employee.component";
 import { Employee } from '../../models/employee';
 import { EmployeesService } from '../../services/employees.service';
+import { News } from '../../models/news';
+import { AppService } from '../app.service';
 
 @Component({
   selector: 'app-news',
-    imports: [RouterModule, MatButtonModule, MatTooltipModule, ReactiveFormsModule, MatFormFieldModule, FormsModule, CommonModule, MatIconModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatFormFieldModule, MatNativeDateModule, MessuaresComponent, CalendarComponent, EmployeeComponent],
+  imports: [RouterModule, MatButtonModule, MatTooltipModule, ReactiveFormsModule, MatFormFieldModule, FormsModule, CommonModule, MatIconModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatFormFieldModule, MatNativeDateModule, MessuaresComponent, CalendarComponent, EmployeeComponent],
   templateUrl: './news.component.html',
   styleUrl: './news.component.scss',
   standalone: true
 })
 
-export class NewsComponent {
+export class NewsComponent implements OnInit {
 
   xmlService = inject(ParseXmlService)
   employeesService = inject(EmployeesService)
+  appService = inject(AppService)
 
-  news: any[] = []
-  employees: Employee[] = [{
-    id: 0,
-    fio: '',
-    phone: '',
-    birthday: new Date("2020-01-01"),
-    subdivision_id: 0,
-    subdivision: null,
-    position: '',
-    head_id: null,
-    helper_id: null,
-    job_phone: '',
-    email: '',
-    cabinet: '',
-    dismiss_date: null
-  }, {
-    id: 0,
-    fio: '',
-    phone: '',
-    birthday: new Date(),
-    subdivision_id: 0,
-    subdivision: null,
-    position: '',
-    head_id: null,
-    helper_id: null,
-    job_phone: '',
-    email: '',
-    cabinet: '',
-    dismiss_date: null
-  }]
-
+  news: any[] = [] // from rss
+  employees!: Employee[] // from api
+  messuares!: any[] // from another api
+ 
 
   ngOnInit() {
+    this.appService.searchText$.subscribe(r => this.loadData(r))
+    // this.loadData()
 
-    var count: number = 1;
+    interval(15000).pipe(
+    tap(r => console.log(r)),
+    switchMap(() => this.xmlService.getRssFeed())
+    ).subscribe(r => {this.news = r.filter(item => item.title.includes(this.appService.searchText$.getValue()) )})
+
+  }
+
+  loadData(search: string){
 
     this.xmlService.getRssFeed().pipe(
-      tap((r) => console.log(r))
-    ).subscribe(r => this.news = r )
+    ).subscribe(r => {this.news = r.filter(item => (item.title.toLowerCase()).includes(search.toLowerCase()) ) } )
 
-    const refreshSubscription = interval(15000).pipe(
-      tap((r) => console.log(r)),
-      switchMap(() => this.xmlService.getRssFeed())
-    ).subscribe(r => {count++; this.news = r; this.news = this.news.slice(0,count).reverse() ; console.log("Прошло 15 сек.")})
+    this.employeesService.getAll().pipe(
+    ).subscribe(r => this.employees = r.filter(item => (item.fio.toLowerCase()).includes(search.toLowerCase()) ))
 
-    // this.employeesService.getAll().pipe(
-    //   tap((r) => console.log(r))
-    // ).subscribe(r => this.employees =r)
+    this.messuares = [{id:1, title:"putin"},
+                      {id:2, title:"messuare2"},
+                      {id:3, title:"messuare3"}].filter(item => (item.title.toLowerCase()).includes(search.toLowerCase()) )
 
   }
 
