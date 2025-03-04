@@ -1,5 +1,5 @@
 import { Component, inject, ViewEncapsulation } from '@angular/core';
-import { MatCalendar, MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -14,7 +14,7 @@ import { AppService } from '../app.service';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterModule, MatButtonModule, MatTooltipModule, MatButtonModule, ReactiveFormsModule, MatFormFieldModule, FormsModule, CommonModule, MatIconModule, MatFormFieldModule, MatInputModule, MatCalendar, MatDatepickerModule, MatFormFieldModule, MatNativeDateModule],
+  imports: [RouterModule, MatButtonModule, MatTooltipModule, MatButtonModule, ReactiveFormsModule, MatFormFieldModule, FormsModule, CommonModule, MatIconModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatFormFieldModule, MatNativeDateModule],
   templateUrl: './header.component.html',
   encapsulation: ViewEncapsulation.None,
   styleUrl: './header.component.scss',

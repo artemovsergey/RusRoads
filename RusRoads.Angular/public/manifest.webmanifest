@@ -1,11 +1,11 @@
 {
-  "name": "Дороги России",
-  "short_name": "Дороги России",
+  "name": "RusRoads.Angular",
+  "short_name": "RusRoads.Angular",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
-  "display": "standalone",
+  "display": "fullscreen",
   "scope": "./",
-  "start_url": "./",
+  "start_url":"./",
   "icons": [
     {
       "src": "icons/icon-72x72.png",
