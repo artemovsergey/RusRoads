@@ -310,4 +310,38 @@ ALTER SEQUENCE "Subdivisions_Id_seq" RESTART 48;
 - chrome://flags/#unsafely-treat-insecure-origin-as-secure
 
 
+
+## Запуск веб-приложения в Jetpack Compsoe 
+
+AndroidManifest.xml
+
+- настройка разрешений 
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+```
+- по http
+```xml
+ <application
+    android:usesCleartextTraffic="true"
+ />
+```
+
+
+**Замечание**: и Angular и API должны быть на собственных адресах в локальной сети. Интерфейс надо подгонять под размеры экрана мобильного устройства.
+
+```kt
+@Composable
+fun WebViewInCompose() {
+    AndroidView(
+        modifier = Modifier.fillMaxSize(),
+        factory = { context ->
+            WebView(context).apply {
+                webViewClient = WebViewClient() // Обработка загрузки страниц
+                settings.javaScriptEnabled = true // Включение JavaScript
+                loadUrl("http://192.168.1.5:4200/news") // Загрузка Angular-приложения
+            }
+        }
+    )
+}
+```
  
