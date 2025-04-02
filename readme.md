@@ -1,57 +1,12 @@
-
-# Пакеты для добавления в ИЛ
-
-Расширения для vscode:
-- C#
-- C# Extensions
-- Angular Language Service
-- REST Client
-- Nuget Gallery
-
-Backend (.NET 9):
-- Swashbackle.Swagger
-- Microsoft.IdentityModel.Tokens (8.3.1)
-- System.IdentityModel.Tokens.Jwt (8.3.1)
-- Microsoft.AspNetCore.Authentication.JwtBearer(9.0.1)
-- Microsoft.EntityFrameworkCore
-- Microsoft.EntityFrameworkCore.Tools
-- Microsoft.EntityFrameworkCore.Design
-- Npgsql.EntityFrameworkCore.PostgreSQL
-- AutoMapper
-
-Frontend (Angular):
-- @angular/cli
-- @angular/material
-- @angular/cdk
-- @angular/service-worker
-- material-design-icons-iconfont
-- @ng-bootstrap/ng-bootstrap
-- ngx-bootstrap
-- ngx-toastr
-- xml2js
-- primeng
-- angularx-qrcode
-- @swimlane/ngx-graph
-
-Мобильное приложение (Kotlin):
-- com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0
-- com.squareup.retrofit2:retrofit:2.11.0
-- io.coil-kt:coil-compose:2.7.0
-- org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0
-- androidx.navigation:navigation-compose:2.8.7
-- org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0
-- com.google.accompanist:accompanist-swiperefresh:0.32.0
-- com.google.accompanist:accompanist-placeholder:0.32.0
-
 # Подготовка день С-1
 
 - настроить горячие клавиши VsCode
-- установить пакеты .net, angular, kotlin, проверить базу и гит
+- установить пакеты .net, angular, kotlin, проверить базу postgres и git
 - проверить dotnet-ef для миграций
 - проверить angular
 - проверить pwa
 - проверить Android Studio и подключение к базе данных через Retrofit
-- если останется время, сразу делать первую сессию и настраивать окружение
+- настроить архитектуру
 
 # Сессия 1
 
@@ -76,10 +31,10 @@ Frontend (Angular):
 - внести по 3 тестовые осмысленные записи для каждой таблицы
 - импорт подразделений и сотрудников через Dbeaver
 
-- компирование из Excel в Dbeaver работает нормально при Ctrl + Shift + V и поставить "Вставить множество строк"
-- возможно понадобиться ручное обновление счетчика автоинкремента
+- копирование из Excel в Dbeaver работает нормально при Ctrl + Shift + V и поставить "Вставить множество строк"
+- возможно понадобиться ручное обновление счетчика автоинкремента позже
 
-```
+```sql
 ALTER SEQUENCE "Subdivisions_Id_seq" RESTART 48;
 ```
 
@@ -87,7 +42,7 @@ ALTER SEQUENCE "Subdivisions_Id_seq" RESTART 48;
 - создание модели для производственного календаря
 - сделать backup обязательно и проверить, что он работает
 - реализация API(модель ошибки, статус коды, dto, automapper)
-- все методы, кроme sign, защитить [Authorize]
+- все методы, кроme sign, защитить `[Authorize]`
 - в Program настроить перевод с camelCase на snake_case
 - настройка jwt аутентификации
 - проверить в Swagger, Postman, http
@@ -98,21 +53,20 @@ ALTER SEQUENCE "Subdivisions_Id_seq" RESTART 48;
 - настроить маршрутизацию app.routes.ts
 - определить ```EmployeeDto``` и ```SubdivisionsDto```
 - в API добавить crud контроллер на ```Employee```
-- в API создать crud ```Subdivision``` контроллер
+- в API создать crud контроллер на ```Subdivision``` 
 - в ```SubdivisionsController``` создать конечную точку по выводу сотрудников по id подразделения, включая дочернии подразделения
 
-- распределить главный компоннет ```App``` на header и два контейнера, в одном структура подразделений, а в другом сотрудники
+- распределить главный компонент ```App``` на header и два контейнера, в одном структура подразделений, а в другом сотрудники с помощью flex контейнеров
 
-- в папке ```models``` создать модели ts для основных сущностей, сервисы
-- в папке ```services``` создать основные сервисы командой ng g s [name] 
+- в папке ```models``` создать модели ts для основных сущностей (dto из API), сервисы
+- в папке ```services``` создать основные сервисы командой `ng g s [name]` 
 - создать компонент ```subdivision``` в котором вывести все подразделения
 - у компонента ```subdivision``` должен быть горизонтальный и вертикальный скролл
 - минимум надо вывести в древовидном(иерархичном виде) подразделения c помощью ```angular material tree```
 - максимум в виде прямоугольников по уровням и со стреками
-(надо посмотреть @swimlane/ngx-graph)
 - логика: при клике на подразделение в компоненте ```subdivision``` в правой части отображаются сотрудники. Это передача данных между компонентами через сервисы. Сервис работает как синглтон
 - каждый сотрудник представляет собой ```компонент сотрудника``` (карточка сотрудника)
-- при клике отображается подробные сведения по сотруднику в виде модального окна(форма с полями только для чтения). При нажатии на "edit" можно редактировать
+- при клике отображается подробные сведения по сотруднику в виде модального окна (форма с полями только для чтения). При нажатии на "edit" можно редактировать
 - также ест кнопка "+" это добавление сотрудника
 - при редактировнии и добавлении валидация Angular с помощью ```reactive form```(проверка на длину телефон и кабинет, номера телефонов проверяются на отсутствие лишних символов, проверка на обязательные поля, email проверяется по шаблону)
 - руководитель и помощник в выпадающем списке выбираются из сотрудников выбранного подразделения
@@ -153,7 +107,7 @@ ALTER SEQUENCE "Subdivisions_Id_seq" RESTART 48;
 - Предоставлен файл-исходник и .pdf
 
 
-- создание 10 тест-кейсов
+## Cоздание 10 тест-кейсов
 - Корректный позитивный тест проверки наличия руководителя проекта
 - Корректный негативный тест проверки наличия руководителя проекта
 - Корректный позитивный тест проверки правильности отображения сроков проекта
@@ -166,6 +120,7 @@ ALTER SEQUENCE "Subdivisions_Id_seq" RESTART 48;
 - Корректный негативный тест проверки правильности формирования карточки проекта
 
 
+### UML
 - диаграмма деятельности (activity diagram) процесса просмотра, хранения и публикации корпоративных документов;
 - Пользователи определены верно
 - Начало и конец процесса определены
@@ -220,11 +175,11 @@ ALTER SEQUENCE "Subdivisions_Id_seq" RESTART 48;
 - результат по каждому блоке, если нет - информация о том, что не найдено
 - при очистке запроса, все возвращается
 
-Замечание: работа с компонентом календаря в 4 сессии нет
+**Замечание**: работа с компонентом календаря в 4 сессии нет
 
 # Сессия 5
 
-- создать приложение Jetpack Compose
+- создать приложение Jetpack Compose или Ionic Angular (быстрее)
 - настроить зависимости
 - настроить компоненты (функции Composable)
 - настроить навигацию
@@ -261,8 +216,7 @@ ALTER SEQUENCE "Subdivisions_Id_seq" RESTART 48;
 
 - Основные модули представлены отдельными компонентами (в клиентском приложении при использовании серверного)
 
-- Интерфейсы между модулями определены верно
-
+- интерфейсы между модулями определены верно
 - руководство пользователя
 - презентация (pdf, pptx на git)
 
@@ -288,11 +242,11 @@ ALTER SEQUENCE "Subdivisions_Id_seq" RESTART 48;
 ```npm cache clean --force``` и заново установить ```ng add @angular/pwa```
 
 - можно установить отдельно ```@angular/service-worker```, но лучше ```ng add @angular/pwa```
-- если через ng add не устанавливается пакет, то npm install
+- если через `ng add` не устанавливается пакет, то `npm install`
 
 
 - могут быть проблемы с AutoMapper в обратную сторону из dto в модель
-- для работы с DateTime и Postgres надо настроить контекст
+- для работы с DateTime и Postgres надо настроить опцию в контексте базы данных
 - Validate.email не работает c кириллицей
 - ```event``` зарезервированное слово в С#
 - чтобы загрузить производственный календарь надо добавить кавычки
@@ -309,8 +263,6 @@ ALTER SEQUENCE "Subdivisions_Id_seq" RESTART 48;
 
 - chrome://flags/#unsafely-treat-insecure-origin-as-secure
 
-
-
 ## Запуск веб-приложения в Jetpack Compsoe 
 
 AndroidManifest.xml
@@ -326,8 +278,9 @@ AndroidManifest.xml
  />
 ```
 
-
 **Замечание**: и Angular и API должны быть на собственных адресах в локальной сети. Интерфейс надо подгонять под размеры экрана мобильного устройства.
+
+## Вариант для интеграции адаптивного веб-приложения в мобильное приложение
 
 ```kt
 @Composable

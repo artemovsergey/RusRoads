@@ -193,7 +193,7 @@ export class RssService {
 
 # ICS
 
-```
+```ts
 import { createEvent } from 'ics';
 
 const { error, value } = createEvent({
